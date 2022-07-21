@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>JS-ADV. Lesson 1. Task 3 </title>
+</head>
+
+<body>
+  <div class="wrap" id="app"></div>
+
+  <script>
+
+    /*
+       Задание:
+        Сложить в элементе с id App следующую размету HTML:
+  
+        <header>
+          <a href="http://google.com.ua">
+            <img src="https://www.google.com.ua/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png">
+          </a>
+          <div class="menu">
+            <a href="#1"> link 1</a>
+            <a href="#1"> link 2</a>
+            <a href="#1"> link 3</a>
+          </div>
+        </header>
+  
+        Используя следующие методы для работы:
+        getElementById
+        createElement
+        element.innerText
+        element.className
+        element.setAttribute
+        element.appendChild
+    */
+
+    function addElementInWrap() {
+
+      /* Створюємо усі потрібні елементи */
+      var header = document.createElement('header');
+      var aLinkHeader = document.createElement('a');
+      var aImg = document.createElement('img');
+      var divMenu = document.createElement('div');
+      var aLink1 = document.createElement('a');
+      var aLink2 = document.createElement('a');
+      var aLink3 = document.createElement('a');
+      var wrapApp = document.getElementById('app'); //Місце вкладу нашої розмітки
+
+      /* Задаємо їм класи та атрибути */
+      aLinkHeader.href = 'http://google.com.ua';
+
+      aImg.src = 'https://www.google.com.ua/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png';
+      
+      divMenu.className = 'menu';
+
+      aLink1.href = '#1';
+      aLink1.innerText = ' link 1';
+
+      aLink2.href = '#2';
+      aLink2.innerText = ' link 2';
+
+      aLink3.href = '#3';
+      aLink3.innerText = ' link 3';
+
+      /* Додаємо еоементи в DOM */
+      aLinkHeader.appendChild(aImg);
+
+      divMenu.appendChild(aLink1);
+      divMenu.appendChild(aLink2);
+      divMenu.appendChild(aLink3);
+
+      header.appendChild(aLinkHeader);
+      header.appendChild(divMenu);
+
+      wrapApp.appendChild(header);
+    }   
+
+    addElementInWrap();
+    
+  </script>
+</body>
+
+</html>
