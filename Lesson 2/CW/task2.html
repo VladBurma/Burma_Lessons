@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ITEA-JS ADVANCED - LESSON 2: CLASSWORK 2</title>
+  <link rel="stylesheet" href="css/style.min.css" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="testBlock hover">
+      <button class="iButton" id="mouseHover">1. Hover!</button>
+      <ul id="hoverResult" class="resultBlock">
+        <li class="red">Hovered!</li>
+        <li class="blue">Hovered!</li>
+        <li class="orange">Hovered!</li>
+        <li class="orange">Hovered!</li>
+        <li class="purple">Hovered!</li>
+      </ul>
+    </div>
+
+    <div class="testBlock click">
+      <button class="iButton" id="mouseClick">2. Click for do things</button>
+      <div id="clickResult" class="resultBlock one two three four five six"></div>
+    </div>
+
+    <div class="testBlock random">
+      <button class="iButton" id="mouseLight">3. Click for turn on lights</button>
+      <div id="lightResult" class="resultBlock"></div>
+    </div>
+
+    <div class="testBlock keyboard">
+      <button class="iButton" id="keyboardButton">4. Press any key</button>
+      <div id="keyboardResult" class="resultBlock key-colors"></div>
+    </div>
+
+  </div>
+
+  <script>
+    /*
+
+      Попрацюємо трохи з івентами:
+      onmouseenter
+      onclick
+      oncontextmenu
+      onkeydown
+
+      Завдання:
+      На кожну з конопок призначити дію, яка виконуватиме таку дію:
+      1.На ховер(onmouseenter) повісити обробник який буде при кожному наведенні
+        на кнопку виводитиме в блок результатом елемент li з текстом "hovered!"
+        у якого буде один із наступних класів:
+        red blue green orange purple
+
+      2.На кнопку кліка (onclick) повісити обробник який видалятиме класи з
+        блоку з результатом по черзі у такому порядку:
+
+        six > two > three > four > one > five
+
+        після того, як блок виявиться порожнім, додати їх у порядку зростання
+
+        one > two > three ... > six
+
+      3. На кнопку кліка (Light) повісити обробник, який виводитиме в
+      блок з результатом (lightResult) почергово один із кольорів світлофора:
+      Цикл: Off -> Red -> Yellow -> Green -> Off
+
+      4. На кнопку з обробником натискання (onkeydown) повісити обробник який буде:
+
+        - Виводити в блок з результатом (keyboardResult) число натискань на будь-яку клавішу клавіатури.
+        - Давати блоку (keyboardResult) класи, які відповідають числу кліків:
+
+        Н-р:
+        1 -> one
+        3 -> three
+        5 -> five
+        11 -> one one
+        115 -> one one five
+
+
+
+    */
+
+    var mouseHover = document.getElementById('mouseHover');
+    var mouseClick = document.getElementById('mouseClick');
+    var mouseLight = document.getElementById('mouseLight');
+    var keyboardButton = document.getElementById('keyboardButton');
+
+    mouseHover.onmouseenter = function(){
+      console.log('hover');
+    }
+
+    var clickIndex = 0;
+    var direction = true;
+
+    mouseClick.onclick = function(){
+        console.log('click');
+    }
+
+
+    mouseLight.onclick = function(e){
+        console.log('light');
+    }
+
+    var counter = 0;
+    keyboardButton.onkeydown = function(){
+        console.log('keydown');
+    }
+  </script>
+</body>
+</html>
