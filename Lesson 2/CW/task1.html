@@ -17,6 +17,26 @@
        5. Видалити клас "Delete"
        6. Застосувати метод toggle на клас "Command"
     */
+
+    /* 1. Вибрати блок Target */
+    var target = document.getElementById('target');
+
+    /* 2. Створити див всередині цього блоку */
+    var divTarget = document.createElement('div');
+    target.appendChild(divTarget);
+
+    /* 3. Додати йому 3 класи "Ctrl Shift Delete" використовуючи властивість className */
+    divTarget.className = 'Ctrl Shift Delete';
+
+    /* 4. Додай клас через метод add */
+    divTarget.classList.add('Option');
+
+    /* 5. Видалити клас "Delete" */
+    divTarget.classList.remove('Delete');
+
+    /* 6. Застосувати метод toggle на клас "Command" */
+    divTarget.classList.toggle('Command');
+
   </script>
 </body>
 </html>

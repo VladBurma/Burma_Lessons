@@ -31,8 +31,40 @@
        Умова: Змінювати HTML розмітку вище – не можна.
        При натисканні на одну з кнопок, відкриється вікно з відповідним data-атрибутом.
        При натисканні на кнопку close вікно потрібно закриватися.
-
     */
+
+    /* Функці у якій відкриваємо відповідний попап */
+    function popupShow(buttonNumber) {
+
+      /* Задаємо функцію кнопці при натиску */
+      var buttonFind = document.querySelector('#popup_' + buttonNumber);
+      buttonFind.onclick = function(){
+
+        /* Додаємо клас show */
+        popupId.classList.toggle('show');
+        var popupFind = popupContainer.querySelector('.popup__item[data-popup="'+ buttonNumber +'"]');
+        popupFind.classList.toggle('show');
+      }
+    }
+
+    /* Знаходимо усі потрібні нам елементи */
+    var popupButton = document.querySelectorAll('.popup__button')
+    var popupId = document.getElementById('popup');
+    var popupContainer = document.getElementById('popup__container');
+    var popupClose = document.getElementById('popup__close');
+
+
+    /* Перебираємо дата атрибути */
+    popupButton.forEach(item => popupShow(item.dataset.popup));
+
+    /* Закриваємо попап */
+    popupClose.onclick = function(){
+        popupId.classList.toggle('show');
+        var close = document.querySelector('.popup__item.show');
+        close.classList.toggle('show');
+    }
+
+
   </script>
 </body>
 </html>
