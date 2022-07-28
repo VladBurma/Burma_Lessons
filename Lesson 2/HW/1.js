@@ -1,40 +1,22 @@
+/* Отримуємо потрібні нам доступи */
+var buttons = document.querySelectorAll('.showButton');
+var tabContainer = document.getElementById('tabContainer');
+var tabs = document.querySelectorAll('.tab');
 
-  /*
+/* Функція, що знаходить натиснуту кнопку і додає клас active до табу з відповідним атрибутом data */
+function tabShow(dataNumber){
+  var findButton = document.querySelector('.showButton[data-tab="'+ dataNumber +'"]');
+  findButton.onclick = function(){
+    hideAllTabs();
+    var findTab = tabContainer.querySelector('.tab[data-tab="'+ dataNumber +'"]');
+    findTab.classList.add('active');
+  };
+}
 
-  Завдання 1.
+/* Функція, що перебирає всі таби та видаляє з них клас active */
+function hideAllTabs(){
+  tabs.forEach(item => item.classList.remove('active'));
+}
 
-    Написати скрипт, який буде перемикати вкладки по натисканню
-    на кнопки у хедері.
-
-    Головна умова – змінювати файл HTML не можна.
-
-    Алгоритм:
-      1. Вибрати кожну кнопку у шапці
-         + бонус вибрати одним селектором
-
-      2. Повісити кнопку онклік
-          button1.onclick = function(event) {
-
-          }
-          + бонус: один обробник на всі три кнопки
-
-      3. Написати функцію, яка вибирає відповідну вкладку
-         та додає до неї клас active
-
-      4. Написати функцію hideAllTabs яка ховає всі вкладки.
-         Видаляючи клас active з усіх вкладок
-
-    Методи роботи:
-
-      getElementById
-      querySelector
-      classList
-      classList.add
-      forEach
-      onclick
-
-      element.onclick = function(event) {
-        // do stuff ...
-      }
-
-  */
+/* Перебираємо кнопки по атрибуту data */
+buttons.forEach(item => tabShow(item.dataset.tab));
