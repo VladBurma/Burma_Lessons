@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8" />
   <title>ITEA-JS ADVANCED - LESSON 2: CLASSWORK 2</title>
   <link rel="stylesheet" href="css/style.min.css" />
 </head>
+
 <body>
   <div class="wrap">
     <div class="testBlock hover">
@@ -80,7 +82,7 @@
 
 
     /* 1. Кнопка mouseHover */
-    var hoverResult= document.querySelector('#hoverResult');
+    var hoverResult = document.querySelector('#hoverResult');
     var arrClassColors = ['red', 'blue', 'green', 'orange', 'purple'];
 
     function getRandomClass(min, max) {
@@ -89,10 +91,10 @@
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    mouseHover.onmouseenter = function(){
+    mouseHover.onmouseenter = function () {
       var li = document.createElement('li');
       li.innerText = 'Hovered!';
-      li.classList.add(arrClassColors[getRandomClass(0, arrClassColors.length-1)]);
+      li.classList.add(arrClassColors[getRandomClass(0, arrClassColors.length - 1)]);
       hoverResult.appendChild(li);
     }
 
@@ -106,30 +108,30 @@
     var arrClassNumbersSort = ['one', 'two', 'three', 'four', 'five', 'six'];
     var clickResult = document.querySelector('#clickResult');
 
-    mouseClick.onclick = function(){
+    mouseClick.onclick = function () {
       if (direction) {
-        for(var i = 0; i < arrClassNumbers.length; i++){
-          if (clickResult.classList.contains(arrClassNumbers[i])){
+        for (var i = 0; i < arrClassNumbers.length; i++) {
+          if (clickResult.classList.contains(arrClassNumbers[i])) {
             clickResult.classList.remove(arrClassNumbers[i]);
 
-            if(i == arrClassNumbers.length-1) {
+            if (i == arrClassNumbers.length - 1) {
               direction = false;
             }
 
             break;
-            }
+          }
         }
       } else {
-        for(var j = 0; j < arrClassNumbersSort.length; j++){
-          if (!clickResult.classList.contains(arrClassNumbersSort[j])){
+        for (var j = 0; j < arrClassNumbersSort.length; j++) {
+          if (!clickResult.classList.contains(arrClassNumbersSort[j])) {
             clickResult.classList.add(arrClassNumbersSort[j]);
 
-            if(j == arrClassNumbersSort.length-1) {
+            if (j == arrClassNumbersSort.length - 1) {
               direction = true;
             }
 
             break;
-            }
+          }
         }
       }
     }
@@ -140,15 +142,15 @@
     var arrTrafficLight = ['off', 'red', 'yellow', 'green'];
     var i = 0;
 
-    mouseLight.onclick = function(e){
-        mouseLightClick.innerText = arrTrafficLight[i++];
+    mouseLight.onclick = function (e) {
+      mouseLightClick.innerText = arrTrafficLight[i++];
 
-        /* Обнуляємо i коли вона стає більшою за довжину масив */
-        if (i == arrTrafficLight.length) {
-          i = 0;
-        }
-        
-        
+      /* Обнуляємо i коли вона стає більшою за довжину масив */
+      if (i == arrTrafficLight.length) {
+        i = 0;
+      }
+
+
     }
 
     /* 4. Кнопка keyboardButton */
@@ -156,7 +158,7 @@
     var arrClassCounter = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
     var keyboardButtonDirection = document.querySelector('#keyboardResult');
 
-    keyboardButton.onkeydown = function(){
+    keyboardButton.onkeydown = function () {
 
       /* При заході у функцію обнуляємо клас до початкового */
       keyboardButtonDirection.className = 'resultBlock key-colors';
@@ -164,19 +166,20 @@
       counter++;
       keyboardButtonDirection.innerText = counter;
 
-      /* Розбиваємо окремо кожну цифру з числа утворюючи масив */
-      var arrDigitsOfNumbers = ("" + counter).split("").map(Number);
+      /* Розбиваємо окремо кожну цифру з числа утворюючи новий масив */
+      var arrDigitsOfNumbers = counter.toString().split("").map(Number);
 
       /* Створюємо новий масив в якому цифрам відповідають аналогічні строки */
       var arrDigitsOfNumbersStr = new Array();
-      for (var i = 0; i < arrDigitsOfNumbers.length; i++){
+      for (var i = 0; i < arrDigitsOfNumbers.length; i++) {
         arrDigitsOfNumbersStr[i] = arrClassCounter[arrDigitsOfNumbers[i]];
       }
 
       /* Обʼєднуємо новий масив в строку і додаємо її до назви класу */
       var classNew = arrDigitsOfNumbersStr.join(' ');
-      keyboardButtonDirection.className += ' '+ classNew;
+      keyboardButtonDirection.className += ' ' + classNew;
     }
   </script>
 </body>
+
 </html>
