@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Task 3</title>
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <div class="wrap" id="wrap">
+    <h1>Переключение слайдера</h1>
+    <div class="roadMap__container yellow">
+      <button class="navButton" data-direction="<"> Prev </button>
+      <div class="roadMap">
+        <div class="roadMapPoint" data-id="1"></div>
+        <div class="roadMapPoint ball" data-id="2"></div>
+        <div class="roadMapPoint" data-id="3"></div>
+        <div class="roadMapPoint" data-id="4"></div>
+        <div class="roadMapPoint" data-id="5"></div>
+        <div class="roadMapPoint" data-id="6"></div>
+        <div class="roadMapPoint" data-id="7"></div>
+        <div class="roadMapPoint" data-id="8"></div>
+      </div>
+      <button class="navButton" data-direction=">"> Next </button>
+    </div>
+
+    <div class="roadMap__container red">
+      <button class="navButton" data-direction="<"> Prev </button>
+      <div class="roadMap">
+        <div class="roadMapPoint" data-id="1"></div>
+        <div class="roadMapPoint" data-id="2"></div>
+        <div class="roadMapPoint ball" data-id="3"></div>
+        <div class="roadMapPoint" data-id="4"></div>
+      </div>
+      <button class="navButton" data-direction=">"> Next </button>
+    </div>
+
+    <div class="roadMap__container blue">
+      <button class="navButton" data-direction="<"> Prev </button>
+      <div class="roadMap">
+        <div class="roadMapPoint" data-id="1"></div>
+        <div class="roadMapPoint ball" data-id="2"></div>
+        <div class="roadMapPoint" data-id="3"></div>
+        <div class="roadMapPoint" data-id="4"></div>
+      </div>
+      <button class="navButton" data-direction=">"> Next </button>
+    </div>
+
+
+    <div class="roadMap__container red">
+      <button class="navButton" data-direction="<"> Prev </button>
+      <div class="roadMap">
+        <div class="roadMapPoint" data-id="1"></div>
+        <div class="roadMapPoint" data-id="2"></div>
+        <div class="roadMapPoint ball" data-id="3"></div>
+        <div class="roadMapPoint" data-id="4"></div>
+      </div>
+      <button class="navButton" data-direction=">"> Next </button>
+    </div>
+
+    <div class="roadMap__container blue">
+      <button class="navButton" data-direction="<"> Prev </button>
+      <div class="roadMap">
+        <div class="roadMapPoint" data-id="1"></div>
+        <div class="roadMapPoint ball" data-id="2"></div>
+        <div class="roadMapPoint" data-id="3"></div>
+        <div class="roadMapPoint" data-id="4"></div>
+      </div>
+      <button class="navButton" data-direction=">"> Next </button>
+    </div>
+
+  </div>
+  <script>
+    /*
+        Задание:
+
+        Написать скрипт, который будет приводить в действие переключалки из разметки.
+        И будет перемещать класс ball по точкам в зависимости от нажатой кнопки
+
+      */
+
+    /* Отримуємо доступ до потрібних нам контейнерів */
+    var roadMapContainer = document.querySelectorAll('.roadMap__container');
+
+
+    /* Перебираємо через forEach кожен контейнер для того, щоб мати доступ до кнопок і roadMap-у */
+    roadMapContainer.forEach(function (item) {
+
+      /* Отримуємо ці доступи */
+      var roadMap = item.querySelectorAll('.roadMapPoint');
+      var buttons = item.querySelectorAll('.navButton');
+
+      /* Навішуємо addEventListener на кнопки в залежності від параметра innerText  */
+      buttons.forEach((btn) => {
+        if (btn.innerText == 'Prev') {
+          btn.addEventListener('click', ballLeft);
+        } else {
+          btn.addEventListener('click', ballRight);
+        }
+      });
+
+
+      /* Функція для кнопки Prev */
+      function ballLeft() {
+        /* Знаходимо елемент з класом ball і видаляємо його. Не можемо винести за функцію, бо знаходити потрібно при кожному кліці */
+        var ballItem = item.querySelector('.ball')
+        ballItem.classList.remove('ball');
+
+        /* Знаходимо елемент, що вище в дереві через data-id */
+        var prevBallId = ballItem.dataset.id - 1;
+
+        /* Прописуємо умову для крайнього лівого положення */
+        if (prevBallId > 0) {
+          /* Знаходимо елемент з потрібним data-id і додаємо клас ball */
+          var prevBallAddClass = item.querySelector('[data-id="' + prevBallId + '"]');
+          prevBallAddClass.classList.add('ball');
+        } else {
+          /* Якщо елемент крайній лівий то додаємо клас ball, який на початку функції видалили  */
+          ballItem.classList.add('ball');
+        }
+      }
+
+      /* Функція для кнопки Next */
+      function ballRight() {
+        /* Знаходимо елемент з класом ball і видаляємо його. Не можемо винести за функцію, бо знаходити потрібно при кожному кліці */
+        var ballItem = item.querySelector('.ball')
+        ballItem.classList.remove('ball');
+
+        /* Знаходимо елемент, що нижче в дереві через data-id */
+        var nextBallId = +ballItem.dataset.id + 1;
+
+        /* Прописуємо умову для крайнього правого положення через довжину NodeList roadMap */
+        if (nextBallId != roadMap.length + 1) {
+          /* Знаходимо елемент з потрібним data-id і додаємо клас ball */
+          var nextBallAddClass = item.querySelector('[data-id="' + nextBallId + '"]');
+          nextBallAddClass.classList.add('ball');
+        } else {
+          /* Якщо елемент крайній правий то додаємо клас ball, який на початку функції видалили  */
+          ballItem.classList.add('ball');
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

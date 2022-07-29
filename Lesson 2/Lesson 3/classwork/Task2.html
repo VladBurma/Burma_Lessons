@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Task 2</title>
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Додав для зручного клікання на кнопку під іконкою */
+    #result {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="wrap" id="wrap">
+    <header>
+      <button id="HouseButton">House</button>
+      <button id="TreeButton">Tree</button>
+      <button id="PlaneButton">Plane</button>
+    </header>
+    <div id="chooseYourBlock">
+
+    </div>
+    <div id="result">
+
+    </div>
+  </div>
+  <script>
+    /*
+        Задание:
+
+        По нажатию на кнопку, в блок с id chooseYourBlock выводить иконку с нажатой кнопки:
+
+        House:  https://cdn-icons.flaticon.com/png/512/2544/premium/2544087.png?token=exp=1659061440~hmac=7a3aad76e87077bee3bbbead31ce0610
+        Tree: https://cdn-icons-png.flaticon.com/512/489/489969.png
+        Plane: https://cdn-icons.flaticon.com/png/512/870/premium/870143.png?token=exp=1659061618~hmac=2578a6523abbc7677fb685916f2f6a57
+
+        Под иконкой расположить еще одну кнопку, по нажатию на которую из соответствующего массива
+        подтягивается случайная картинка с изображением в блок result.
+        Предыдущий результат очищается.
+
+        var houseArray = [
+        "https://static.pexels.com/photos/106399/pexels-photo-106399.jpeg",
+        "https://i.pinimg.com/736x/7f/be/50/7fbe50ec634c65709d7fe6ac267c4e6f--large-garage-plans-house-plans-large-family.jpg",
+        "https://i.ytimg.com/vi/Xx6t0gmQ_Tw/maxresdefault.jpg"
+      ];
+        var planeArray = [
+        "http://www.x-plane.com/wp-content/uploads/2014/08/B777-200ER.png",
+        "https://media.cntraveler.com/photos/57067c1e9adc6caf5afe3f4c/master/pass/plane-landing-cr-getty-sb10062851ai-001.jpg",
+        "https://media.wired.com/photos/59323264a31264584499367f/master/w_1024,c_limit/diesel-plane-inline.jpg"
+      ];
+      var treeArray = [
+        "https://static.pexels.com/photos/56875/tree-dawn-nature-bucovina-56875.jpeg",
+        "https://c1.staticflickr.com/8/7218/7184786016_1ddab461e8_b.jpg",
+        "http://www.atzmut.com/wp-content/uploads/2016/01/tree.jpg"
+      ];
+
+      */
+
+
+    var iconsObj = {
+      house: 'https://img.icons8.com/bubbles/344/home.png',
+      tree: 'https://img.icons8.com/bubbles/344/deciduous-tree.png',
+      plane: 'https://img.icons8.com/bubbles/344/airport.png'
+    }
+
+    var houseArray = [
+      "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/1029599/pexels-photo-1029599.jpeg?auto=compress&cs=tinysrgb&w=600"
+    ];
+
+    var planeArray = [
+      "https://images.pexels.com/photos/1004584/pexels-photo-1004584.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/1089306/pexels-photo-1089306.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/1059608/pexels-photo-1059608.jpeg?auto=compress&cs=tinysrgb&w=600"
+    ];
+
+    var treeArray = [
+      "https://images.pexels.com/photos/38136/pexels-photo-38136.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/1632790/pexels-photo-1632790.jpeg?auto=compress&cs=tinysrgb&w=600"
+    ];
+
+    var buttons = document.querySelectorAll('button');
+    var iconBlock = document.getElementById('chooseYourBlock');
+    var resultBlock = document.getElementById('result');
+
+    /* Групуємо масиви в обʼєкт, для можливості вибору потрібного масива через властивість */
+    var imgObj = {
+      house: houseArray,
+      tree: treeArray,
+      plane: planeArray
+    }
+
+    /* Створюємо і додаємо потрібні нам елементи */
+    var resultIcon = document.createElement('img'); // Одна з 3 іконок
+    iconBlock.appendChild(resultIcon);
+
+    var buttonPhoto = document.createElement('button'); // Кнопка виклику фото
+    buttonPhoto.innerText = 'Згенерувати фото';
+
+    var photoAdd = document.createElement('img'); // Фото з масиву
+
+
+    /* Функція рандому */
+    function getRandomIntInclusive(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+
+
+    function showIcon(event) {
+      /* Обнуляємо значення src для фото з масиву, для випадків, коли фото вже було згенероване */
+      photoAdd.src = '';
+
+      /* Знаходимо текст з кнопки і знаходимо аналогічну властивість в обʼєкті iconsObj */
+      var buttonsText = event.target.innerText.toLowerCase();
+      resultIcon.src = iconsObj[buttonsText];
+      resultBlock.appendChild(buttonPhoto);
+
+      /* Додаємо функцію генерування рандомного фото на кнопку */
+      buttonPhoto.onclick = randomPhotoAdd;
+
+      function randomPhotoAdd() {
+        var number = getRandomIntInclusive(0, imgObj[buttonsText].length - 1);
+
+        /* Знаходимо фото за попередньо знайденою назвою властивості в imgObj і згенерованим індексом масиву */
+        photoAdd.src = imgObj[buttonsText][number];
+        console.log(photoAdd.src);
+        resultBlock.appendChild(photoAdd);
+
+      }
+    }
+
+    /* Перебираємо елементи buttons і вішаємо на них функцію showIcon */
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', showIcon);
+    })
+  </script>
+</body>
+
+</html>
