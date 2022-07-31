@@ -12,33 +12,22 @@ body{
 }
 
 #slider {
-  position: relative;
+  display: flex;
+  justify-content: center;
   width: 512px;
   height: 512px;
 }
 
 img {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  transition: 0.4s;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: 0.4s;
 }
 
-img.hide {
+img.hide, img.appear {
   width: 0%;
-  height: 0%;
-  opacity: 0%;
-}
-
-img.appear {
-  height: 0%;
-  opacity: 0%;
-  opacity: 0%;
+  opacity: 80%;
 }
 
 img.show {

@@ -18,17 +18,6 @@
 
 */
 
-/* Функція renderImage, в якій ховаємо існуючу картинку через присвоєння класу hide і додаємо нову, поки що невидиму картинку з класом appear */
-function renderImage() {
-  slider.querySelector('img').className = 'hide';
-  var imgNew = document.createElement('img');
-  /* Сюди отримуємо оновленне значення currentPosition, в залежності від кнопки, що ми натиснули */
-  imgNew.src = OurSliderImages[currentPosition];
-  slider.appendChild(imgNew);
-  imgNew.classList.add('appear');
-
-}
-
 /* Функція для кнопки Next. Якщо слайд останній, то присвоює значення 0 в currentPosition, якщо ні, то збільшує на 1 */
 function nextSilde() {
   if (currentPosition == OurSliderImages.length - 1) {
@@ -37,7 +26,6 @@ function nextSilde() {
     currentPosition++;
   }
   renderImage();
-
 }
 
 /* Функція для кнопки Prev. Якщо слайд перший, то присвоює значення останнього слайду в currentPosition, якщо ні, то зменшує на 1 */
@@ -50,17 +38,29 @@ function prevSilde() {
   renderImage();
 }
 
-/* Функція showNewImage у якій через forEach пробігаємось по усім тегам img в slider. Якщо тег має клас hide, то видаляємо його, в іншому випадку(клас appear): замінюємо на клас show */
+/* Функція renderImage, в якій ховаємо існуючу картинку через присвоєння класу hide і додаємо нову, поки що невидиму картинку з класом appear */
+function renderImage() {
+  slider.querySelector('img').className = 'hide';
+  var imgNew = document.createElement('img');
+  /* Сюди отримуємо оновленне значення currentPosition, в залежності від кнопки, що ми натиснули */
+  imgNew.src = OurSliderImages[currentPosition];
+  slider.appendChild(imgNew);
+  imgNew.classList.add('appear');
+
+}
+
+/* 
+Функція showNewImage(викликається після завершення анімацій у функції renderImage) у якій через forEach пробігаємось по усім тегам img в slider.
+Якщо тег має клас hide, то видаляємо його. В іншому випадку(клас appear): замінюємо на клас show */
 function showNewImage() {
-  var work = slider.querySelectorAll('img');
-  work.forEach((element) => {
-    if (element.classList.contains("hide")) {
-      element.remove();
+  var images = slider.querySelectorAll('img');
+  images.forEach((item) => {
+    if (item.classList.contains("hide")) {
+      item.remove();
     } else {
-      element.className = 'show';
+      item.className = 'show';
     }
   });
-
 }
 
 
