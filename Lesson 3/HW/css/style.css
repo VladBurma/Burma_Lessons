@@ -1,0 +1,48 @@
+body{
+  box-sizing: border-box;
+  padding: 10px 20px 30px;
+  background: #eee;
+  font-family: sans-serif;
+}
+
+.wrap{
+  margin: 10px 20px;
+  background: #fff;
+  padding: 10px 20px 30px;
+}
+
+#slider {
+  position: relative;
+  width: 512px;
+  height: 512px;
+}
+
+img {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  transition: 0.4s;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+img.hide {
+  width: 0%;
+  height: 0%;
+  opacity: 0%;
+}
+
+img.appear {
+  height: 0%;
+  opacity: 0%;
+  opacity: 0%;
+}
+
+img.show {
+  width: 100%;
+  height: 100%;
+  opacity: 100%;
+}
