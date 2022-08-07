@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Form work1</title>
+  <style>
+    #result p {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+
+    #result img {
+      width: 200px;
+    }
+  </style>
+
+  <script>
+    /*
+      Завдання:
+
+      1. Згенерувати список країн у Select countries
+      2. При виборі країни генерувати ще один Select зі списком
+        міст цієї країни та вивести цей селект у блок result
+      3. При виборі міста слід випадково рандомити температуру від
+      -10 градусів до +40. Якщо температура
+
+        -10 до 0 то 'Сонячно' 'Легкий снігопад' 'Сильний снігопад'
+        0 до 30 то 'Сонячно' 'Дощ' 'Вітер' 'Можливий дощ'
+        30 до 40 то 'Сонячно' 'Засуха' 'Вітер'
+
+      4. Вивести повідомлення на сторінку
+        {Country}. В {City} {Weather} {Temperature} градусів.
+        Україна. У Kyiv Сонячно -10 градусів
+
+        + бонус додати красиві картинки з погодою
+    */
+    /* Функція рандому */
+    function getRand(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    /* Скрипт буде виконуватись після завантаження сторінки */
+    window.addEventListener("load", function () {
+
+      /* Отримуємо доступи */
+      var countriesSelect = document.getElementById('countries');
+      var result = document.getElementById('result');
+
+      /* Початкові змінні */
+      var countries = ['Ukraine', 'Poland', 'USA'];
+      var ukraineCity = ['Kyiv', 'Lviv', 'Odesa', 'Charkiv'];
+      var polandCity = ['Warszawa', 'Poznan', 'Krakow', 'Katowice'];
+      var usaCity = ['New York', 'Los Angeles', 'Las Vegas', 'Chicago'];
+
+      /* Створюємо обʼєкт з містами */
+      var cityObj = {
+        ukraine: ukraineCity,
+        poland: polandCity,
+        usa: usaCity
+      };
+
+      /* Обʼєкт з погодою */
+      var weatherObj = {
+        cold: ['Сонячно', 'Легкий снігопад', 'Сильний снігопад'],
+        normal: ['Сонячно', 'Дощ', 'Вітер', 'Можливий дощ'],
+        hot: ['Сонячно', 'Засуха', 'Вітер']
+      };
+
+      /* Обʼєкт із зображеннями */
+      var weatherImageObj = {
+        cold: [
+          'https://cdn-icons.flaticon.com/png/512/3222/premium/3222691.png?token=exp=1659835680~hmac=cd98f61b82416c8a18048bdd95fda5c0',
+          'https://cdn-icons.flaticon.com/png/512/3222/premium/3222732.png?token=exp=1659835761~hmac=35cbd2cefa6f76cb4191397bad88dcb2',
+          'https://cdn-icons.flaticon.com/png/512/3222/premium/3222739.png?token=exp=1659835772~hmac=9aba716af620f927e2c429c0d64f0895'
+        ],
+        normal: [
+          'https://cdn-icons.flaticon.com/png/512/3222/premium/3222691.png?token=exp=1659835680~hmac=cd98f61b82416c8a18048bdd95fda5c0',
+          'https://cdn-icons.flaticon.com/png/512/3222/premium/3222718.png?token=exp=1659835733~hmac=9609ba433e5b039434bcce4d0f658371',
+          'https://cdn-icons.flaticon.com/png/512/3222/premium/3222727.png?token=exp=1659835794~hmac=0dc7e89f7ad0f4cc2f491b46c2473ae5',
+          'https://cdn-icons.flaticon.com/png/512/3222/premium/3222705.png?token=exp=1659835704~hmac=5075e70b70d77a7f22d9a5275d6dae4e'
+        ],
+        hot: [
+          'https://cdn-icons.flaticon.com/png/512/3222/premium/3222691.png?token=exp=1659835680~hmac=cd98f61b82416c8a18048bdd95fda5c0',
+          'https://cdn-icons-png.flaticon.com/512/6041/6041465.png',
+          'https://cdn-icons.flaticon.com/png/512/3222/premium/3222727.png?token=exp=1659835794~hmac=0dc7e89f7ad0f4cc2f491b46c2473ae5'
+        ]
+      }
+
+
+      /* Додаємо початкову опцію в countriesSelect */
+      var startOptCountry = new Option("Оберіть країну", null, true, true);
+      startOptCountry.disabled = true;
+      countriesSelect.appendChild(startOptCountry);
+
+      /* Додаємо країни в Select */
+      countries.forEach(function (item) {
+        var countryItem = new Option(item, item);
+        countriesSelect.appendChild(countryItem);
+      });
+
+      /* Вішаємо функцію на інпут countriesSelect */
+      countriesSelect.addEventListener('input', function (e) {
+
+        /* Створюємо новий Select */
+        var citySelect = document.createElement('select');
+
+        /* Додаємо початкову опцію у citySelect */
+        var cityItem = cityObj[countriesSelect.value.toLowerCase()];
+        var startOptCity = new Option("Оберіть місто", null, true, true);
+        startOptCity.disabled = true;
+        citySelect.appendChild(startOptCity);
+
+        /* В залежності від вибору у країни countriesSelect додаємо відповідні міста */
+        cityItem.forEach(function (item) {
+          var cityOfCountry = new Option(item, item);
+          citySelect.appendChild(cityOfCountry);
+        });
+
+        /* Обнуляємо існуючі елементи, якщо вони є */
+        result.innerHTML = '';
+
+        /* Додаємо другий Select з містами */
+        result.appendChild(citySelect);
+
+        /* Створюмо теги під текст і зображення */
+        var weatherForecast = document.createElement('p');
+        var weatherForecastImage = document.createElement('img');
+        result.appendChild(weatherForecast);
+        result.appendChild(weatherForecastImage);
+
+        /* Вішаємо функцію на інпут citySelect */
+        citySelect.addEventListener('input', function (e) {
+
+          /* Генеруємо рандомну температуру і оголошуємо змінні, що використовуватимо в умові */
+          var temperature = getRand(-10, 40);
+          var randIndex;
+          var weather;
+          var weaterImage;
+
+          if (temperature <= 0) {
+            /* Генеруємо індекс для відповідної погоди і зображення */
+            randIndex = getRand(0, weatherObj.cold.length - 1);
+            /* Отримуємо погоду */
+            weather = weatherObj['cold'][randIndex];
+            /* Отримуємо зображення */
+            weaterImage = weatherImageObj['cold'][randIndex];
+
+          } else if (temperature > 0 && temperature <= 30) {
+            randIndex = getRand(0, weatherObj.normal.length - 1);
+            weather = weatherObj['normal'][randIndex];
+            weaterImage = weatherImageObj['normal'][randIndex];
+
+          } else {
+            randIndex = getRand(0, weatherObj.hot.length - 1);
+            weather = weatherObj['hot'][randIndex];
+            weaterImage = weatherImageObj['hot'][randIndex];
+          };
+
+          /* Записуємо отримані дані у текст і картинку, які згенерували на початку */
+          weatherForecast.innerText = countriesSelect.value + '. У ' + citySelect.value + ' ' + weather + ' ' + temperature + ' градусів.'
+          weatherForecastImage.src = weaterImage;
+        });
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <select id="countries"></select>
+  <div id="result"></div>
+
+</body>
+
+</html>

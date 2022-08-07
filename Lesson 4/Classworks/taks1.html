@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Forms Task 1</title>
+  <script>
+    /*
+          Завдання:
+         Зробити валідацію форми:
+         1. Логін / Пароль не може бути порожнім
+         2. Паролі повинні збігтися
+         3. Поки не варто що користувач згоден з осіб. угодою – кнопка відправки не активна
+
+         + бонус – те поле, яке не пройшло валідацію підсвічувати червоним.
+                 - яке пройшло – підсвічувати зеленим.
+    */
+  </script>
+</head>
+
+<body>
+  <form id="MyValidateForm">
+    <input type="text" name='login' placeholder="Ваш логин" />
+    <input type="password" name='pas1' placeholder="Ваш пароль" />
+    <input type="password" name='pas2' placeholder="Повторите пароль" />
+    <label for="agree">
+      <span>Вы согласны с лицензионым соглашением.</span>
+      <input type="checkbox" id="agree" />
+    </label>
+    <input type="submit" id="submit" value="Отправить" disabled />
+  </form>
+
+  <style>
+    #MyValidateForm {
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #MyValidateForm input {
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      padding: 10px 20px;
+    }
+
+    .error {
+      border: 1px solid red;
+    }
+
+    .OK {
+      border: 1px solid green;
+    }
+  </style>
+
+  <script>
+    /* Отримуємо доступи до елементів */
+    var form = document.getElementById('MyValidateForm');
+    var button = document.getElementById('submit');
+    var checkbox = document.getElementById('agree');
+    var validation = true; // Задаємо змінну, що буде відповідати за валідацію форми
+
+    /* Функція, що обнуляє змінну валідації до початкового значення і прибирає класи */
+    function formNormalize() {
+      validation = true;
+      var error = document.querySelectorAll('.error');
+      error.forEach((item) => {
+        item.classList.remove('error');
+      });
+
+      var ok = document.querySelectorAll('.OK');
+      ok.forEach((item) => {
+        item.classList.remove('OK');
+      });
+    }
+
+    /* Функція, що перевіряє поле на наявність введених символів */
+    function checkEmpty(field) {
+      if (field.login.value === '') {
+        validation = false;
+        field.login.classList.add('error');
+      } else {
+        field.login.classList.add('OK');
+      }
+    }
+
+    /* Функція, що порівнює паролі та перевіряє, чи введено щось */
+    function comparingPasswords(field) {
+      if (field.pas1.value === field.pas2.value && field.pas1.value.length > 0) {
+        field.pas1.classList.add('OK');
+        field.pas2.classList.add('OK');
+      } else {
+        validation = false;
+        field.pas1.classList.add('error');
+        field.pas2.classList.add('error');
+      }
+    }
+
+    /* Функція, що перевіряє стан чекбоксу да в залежності від результату додає/видаляє атрибут disabled */
+    function checkboxClick() {
+      if (checkbox.checked) {
+        button.removeAttribute('disabled');
+      } else {
+        button.setAttribute('disabled', '');
+      }
+    }
+
+    /* Вішаємо функцію checkboxClick на чекбокс */
+    checkbox.addEventListener('click', checkboxClick);
+
+    /* Вішаємо функції на кнопку відправки в формі */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); //дія не виконується як зазвичай
+      formNormalize();
+      checkEmpty(form);
+      comparingPasswords(form);
+
+      /* Перевіряємо змінну validation, якщо хоч одна з функцій змінила її на false, то видаємо помилку.
+      Якщо ні, то виводимо результат заповнення форми у консоль */
+      if (validation) {
+        console.log('Ваш логин: ' + form.login.value);
+        console.log('Ваш пароль: ' + form.pas1.value);
+      } else {
+        alert('Erorr');
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Lesson 4 HW</title>
+</head>
+
+<body>
+    <form id="myForm">
+        <div class="form__input-item">
+            <label for="userName">Імʼя користувача</label>
+            <input type="text" minlength="2" id="userName" required name="userName">
+        </div>
+
+        <div class="form__input-item">
+            <label for="userEmail">Email</label>
+            <input type="email" minlength="3" id="userEmail" required name="userEmail">
+        </div>
+
+        <div class="form__input-item">
+            <label for="userPassword">Пароль</label>
+            <input type="password" minlength="8" maxlength=16 id="userPassword" required name="userPassword">
+        </div>
+
+        <div class="form__input-item">
+            <label for="eatenApples">Кількість з'їдених яблук</label>
+            <!-- Змінив тут на number, щоб не можна було вводити букви -->
+            <input type="number" min = '0' minlength="1" id="eatenApples" required name="eatenApples">
+        </div>
+
+        <div class="form__input-item">
+            <label for="thanksForApples">Дякуємо за яблука</label>
+            <input type="text" id="thanksForApples" required name="thanksForApples">
+        </div>
+
+        <div class="form__input-item_checkbox">
+            <label for="agreeToStudy">Згоден на навчання</label>
+            <input type="checkbox" id="agreeToStudy" required name="agreeToStudy">
+        </div>
+
+        <div class="form__buttons-wrapper">
+            <input type="submit" id="submitButton" name="submitButton" value="Submit">
+            <input type="button" id="validateButton" name="validateButton" value="Validate">
+        </div>
+    </form>
+    <script src="Task1.js"></script>
+</body>
+
+</html>
