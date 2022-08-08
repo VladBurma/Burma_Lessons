@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 4</title>
+</head>
+
+<body>
+    <script>
+        /*
+        Задание "Шифр цезаря":
+
+        https://uk.wikipedia.org/wiki/%D0%A8%D0%B8%D1%84%D1%80_%D0%A6%D0%B5%D0%B7%D0%B0%D1%80%D1%8F
+
+        Написать функцию, которая будет принимать в себя слово и количество
+        симовлов на которые нужно сделать сдвиг внутри.
+
+        Написать функцию дешефратор которая вернет слово в изначальный вид.
+
+        Сделать статичные функции используя bind и метод частичного
+        вызова функции (каррирования), которая будет создавать и дешефровать
+        слова с статично забитым шагом от одного до 5.
+
+
+        const isMobile = document.innerWidth < 768;
+
+        Например:
+        encryptCesar( 3, 'Word');
+        encryptCesar1(...)
+        ...
+        encryptCesar5(...)
+
+        decryptCesar1(3, 'Sdwq');
+        decryptCesar1(...)
+        ...
+        decryptCesar5(...)
+
+        "а".charCodeAt(); // 1072
+        String.fromCharCode(189, 43, 190, 61) // ½+¾
+
+        */
+
+        /* Функція для шифрування */
+        function caesarCipher(rot, word) {
+
+            /* Перевіряємо введені параметри на правильний тип */
+            if (typeof rot !== 'number' || typeof word !== 'string') {
+                alert('Зсув повинен бути числом, а слово -- строкою')
+                return;
+            }
+
+            /* Робимо можливий зсув на будь-яке число тримаючи крок зсуву у межах від 0 до 26 (0 до -26) */
+            if (rot > 26) {
+                rot = rot - 26 * Math.floor(rot / 26);
+            } else if (rot < -26) {
+                rot = rot + 26 * Math.floor((-rot) / 26);
+            }
+
+            /* Створюємо масив з символами з введеного слова */
+            let lettersFromWordArr = word.split('');
+
+            /* Перебираємо можливі варіанти */
+            for (let i = 0; i < lettersFromWordArr.length; i++) {
+
+                /* Якщо елемент прописна буква латинського алфавіту */
+                if (lettersFromWordArr[i].charCodeAt() >= 65 && lettersFromWordArr[i].charCodeAt() <= 90) {
+                    /* Якщо при додаванні зсуву вийдемо за верхню межу(Z) */
+                    if (lettersFromWordArr[i].charCodeAt() + rot > 90) {
+                        lettersFromWordArr[i] = 65 + lettersFromWordArr[i].charCodeAt() + rot - 91;
+                    }
+                    /* Якщо при додаванні зсуву(відʼємне число) вийдемо за нижню межу(A) */
+                    else if (lettersFromWordArr[i].charCodeAt() + rot < 65) {
+                        lettersFromWordArr[i] = 90 - (64 - (lettersFromWordArr[i].charCodeAt() + rot));
+                    }
+                    /* В усіх інших випадках просто додаємо зсув */
+                    else {
+                        lettersFromWordArr[i] = lettersFromWordArr[i].charCodeAt() + rot;
+                    }
+
+                    /* Якщо елемент маленька буква латинського алфавіту */
+                } else if (lettersFromWordArr[i].charCodeAt() >= 97 && lettersFromWordArr[i].charCodeAt() <= 122) {
+                    /* Якщо при додаванні зсуву вийдемо за верхню межу(z) */
+                    if (lettersFromWordArr[i].charCodeAt() + rot > 122) {
+                        lettersFromWordArr[i] = 97 + lettersFromWordArr[i].charCodeAt() + rot - 123;
+                    }
+                    /* Якщо при додаванні зсуву(відʼємне число) вийдемо за нижню межу(a) */
+                    else if (lettersFromWordArr[i].charCodeAt() + rot < 97) {
+                        lettersFromWordArr[i] = 122 - (96 - lettersFromWordArr[i].charCodeAt() - rot);
+                    }
+                    /* В усіх інших випадках просто додаємо зсув */
+                    else {
+                        lettersFromWordArr[i] = lettersFromWordArr[i].charCodeAt() + rot;
+                    }
+                }
+                /* В усіх інших випадках просто записуємо charCode без змін (для розділових знаків, пробілів або букв з інших алфавітів) */
+                else {
+                    lettersFromWordArr[i] = lettersFromWordArr[i].charCodeAt()
+                }
+
+            }
+
+            /* Отримуємо зашифроване слово переводячи charCode назад у символи */
+            let caesarWord = String.fromCharCode(...lettersFromWordArr);
+            return caesarWord;
+        }
+
+        /* Функція для розшифрування(все аналогічно до функції шифрування, тільки тепер враховуємо, що крок не додаємо, а віднімаємо) */
+        function caesarCipherDecoding(rot, word) {
+
+            if (typeof rot !== 'number' || typeof word !== 'string') {
+                alert('Зсув повинен бути числом, а слово -- строкою')
+                return;
+            }
+
+            if (rot > 26) {
+                rot = rot - 26 * Math.floor(rot / 26);
+            } else if (rot < -26) {
+                rot = rot + 26 * Math.floor((-rot) / 26);
+            }
+
+            let lettersFromWordArr = word.split('');
+
+            for (let i = 0; i < lettersFromWordArr.length; i++) {
+                if (lettersFromWordArr[i].charCodeAt() >= 65 && lettersFromWordArr[i].charCodeAt() <= 90) {
+                    if (lettersFromWordArr[i].charCodeAt() - rot > 90) {
+                        lettersFromWordArr[i] = 65 + lettersFromWordArr[i].charCodeAt() - rot - 91;
+                    } else if (lettersFromWordArr[i].charCodeAt() - rot < 65) {
+                        lettersFromWordArr[i] = 90 - (64 - lettersFromWordArr[i].charCodeAt() + rot);
+                    } else {
+                        lettersFromWordArr[i] = lettersFromWordArr[i].charCodeAt() - rot;
+                    }
+                } else if (lettersFromWordArr[i].charCodeAt() >= 97 && lettersFromWordArr[i].charCodeAt() <= 122) {
+                    if (lettersFromWordArr[i].charCodeAt() - rot > 122) {
+                        lettersFromWordArr[i] = 97 + lettersFromWordArr[i].charCodeAt() - rot - 123;
+                    } else if (lettersFromWordArr[i].charCodeAt() - rot < 97) {
+                        lettersFromWordArr[i] = 122 - (96 - lettersFromWordArr[i].charCodeAt() + rot);
+                    } else {
+                        lettersFromWordArr[i] = lettersFromWordArr[i].charCodeAt() - rot;
+                    }
+                } else {
+                    lettersFromWordArr[i] = lettersFromWordArr[i].charCodeAt()
+                }
+            }
+
+            /* Отримуємо зашифроване слово переводячи charCode назад у символи */
+            let caesarWord = String.fromCharCode(...lettersFromWordArr);
+            return caesarWord;
+        }
+
+        /* Створюємо змінні зсуву і строки для зручності */
+        const ROT = 2;
+        const WORD = 'hello evrybody';
+
+        /* Викликаємо функції */
+        let encryptResult = caesarCipher(ROT, WORD);
+        let decodingResult = caesarCipherDecoding(ROT, encryptResult);
+        console.log(
+            `Початкова фраза: ${WORD}. Число для шифрування: ${ROT}. Зашифрована фраза: ${encryptResult}. Розшифрована фраза: ${decodingResult}.`
+            );
+
+        /* Використовуємо метод .bind для часткового виклику функції */
+        let curryingEncrypt = caesarCipher.bind(null, 2);
+        let curryingEncryptResult = curryingEncrypt('I use method .bind for encryption');
+
+        let curryingDecoding = caesarCipherDecoding.bind(null, 2);
+        let curryingDecodingResult = curryingDecoding(curryingEncryptResult);
+
+        console.log(
+            `Метод .bind. Зашифрована фраза: ${curryingEncryptResult}. Розшифрована фраза: ${curryingDecodingResult}.`
+            );
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 1</title>
+</head>
+
+<body>
+    <script>
+        /*
+    Задание 1:
+
+    Написать обьект Train у которого будут свойства:
+    -имя,
+    -скорость езды
+    -количество пассажиров
+    Методы:
+    Ехать -> Поезд {name} везет { количество пассажиров} со скоростью {speed}
+    Стоять -> Поезд {name} остановился. Скорость {speed}
+    Подобрать пассажиров -> Увеличивает кол-во пассажиров на Х
+    */
+
+        const TRAIN = {};
+        TRAIN.name = 'InterCity+';
+        TRAIN.speed = 0;
+        TRAIN.passengers = 100;
+        TRAIN.go = function () {
+            TRAIN.speed = 200;
+            console.log(`Потяг ${TRAIN.name} везе ${TRAIN.passengers} пасажирів зі швидкістю ${TRAIN.speed} км/год`);
+        }
+        TRAIN.stop = function () {
+            TRAIN.speed = 0;
+            console.log(`Потяг ${TRAIN.name} зупинився. Швидкість ${TRAIN.speed} км/год`);
+        }
+        TRAIN.addPassengers = function (newPassengers) {
+            /* Перевіряємо на пусте введення */
+            if (newPassengers === undefined) {
+                alert('Введіть кількість пасажирів');
+                return;
+            }
+            TRAIN.passengers += newPassengers;
+            console.log(`Кількість пасажирів: ${TRAIN.passengers}`);
+        }
+    </script>
+</body>
+
+</html>
