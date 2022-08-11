@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Classwork</title>
+  <style>
+  body{
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+    .wrap {
+      display: flex;
+      flex-direction: row;
+      row-gap: 50px;
+      justify-content: flex-start;
+    }
+
+    .ObjForm,
+    .resultBlock {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      box-sizing: border-box;
+      padding: 10px 20px;
+    }
+
+    .assigned {
+      width: 30vw;
+      display: flex;
+    }
+
+    .createResult header {
+      font-weight: 700;
+    }
+  </style>
+
+  <script>
+    /*
+      Завдання:
+         1. Використовуючи інтерфейс який є на сторінці, написати візуальний
+         конструктор об'єктів використовуючи значення key-value, які вводяться в
+         відповідні поля у формі.
+
+         2. Кожен створений об'єкт виводити в тег code після додавання кожного
+         нового поля. Тобто ми маємо візуально бачити в якому стані наші об'єкти
+         зараз
+
+         3. Після натискання кнопки Combine Objects! два об'єкти повинні об'єднатися
+         використовуючи метод Object.assing або spread operator і вивестися на стрінчку.
+
+         * Змінювати HTML можна.
+
+    */
+  </script>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="assigned">
+      <div class="ObjForm">
+        <input id="keyOne" name="key" placeholder="Enter your key" />
+        <input id="valueOne" name="value" placeholder="Enter your value" />
+        <button id="submitOne" type="submit">Send</button>
+      </div>
+      <div class="createResult">
+        <header>
+          Created Object
+        </header>
+        <div class="createdObj">
+          <p>{</p>
+          <code id="objectOne">
+            <p>Пусто</p>
+          </code>
+          <p>}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="assigned">
+      <div class="ObjForm">
+        <input id="keyTwo" name="key" placeholder="Enter your key" />
+        <input id="valueTwo" name="value" placeholder="Enter your value" />
+        <button id="submitTwo" type="submit">Send</button>
+      </div>
+      <div class="createResult">
+        <header>
+          Created Object
+        </header>
+        <div class="createdObj">
+          <p>{</p>
+          <code id="objectTwo">
+            <p>Пусто</p>
+          </code>
+          <p>}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="resultBlock">
+    <button id="combine">Combine Objects!</button>
+    <h3> Result: </h3>
+    <p>{</p>
+    <div id="result">
+      <p>Пусто</p>
+    </div>
+    <p>}</p>
+  </div>
+
+  <script>
+    /* Отримуємо доступи */
+    const KEY_ONE = document.getElementById('keyOne');
+    const VALUE_ONE = document.getElementById('valueOne');
+    const SUBMIT_ONE = document.getElementById('submitOne');
+    const RESULT_ONE = document.getElementById('objectOne');
+
+
+    const KEY_TWO = document.getElementById('keyTwo');
+    const VALUE_TWO = document.getElementById('valueTwo');
+    const SUBMIT_TWO = document.getElementById('submitTwo');
+    const RESULT_TWO = document.getElementById('objectTwo');
+
+    const COMBINE = document.getElementById('combine');
+    const RESULT = document.getElementById('result');
+
+
+    /* Створюємо обʼєкти */
+    const OBJECT_ONE = {};
+    const OBJECT_TWO = {};
+    const OBJECT_RESULT = {};
+    
+    /* Функція створення нової властивості в обʼєкті */
+    let addNewProperty = (key, value, obj, place) => {
+      let objectNewProperty = {}
+      objectNewProperty[`${key.value}`] = value.value;
+      Object.assign(obj, objectNewProperty);
+      /* Обнуляємо поля */
+      key.value = '';
+      value.value = '';
+    }
+
+    /* Функція додавання властивостей обʼєкту на сторінку */
+    let objectToPage = (obj, place) => {
+      /* Обнуляємо вивід */
+      place.innerHTML = '';
+      for (let [key, value] of Object.entries(obj)) {
+        let p = document.createElement('p');
+        p.innerText = `${key}: ${value}`;
+        place.appendChild(p);
+      }
+    }
+
+    /* Функції зі своїми параметрами */
+    let objectOneFunc = () => {
+      addNewProperty(KEY_ONE, VALUE_ONE, OBJECT_ONE);
+      objectToPage(OBJECT_ONE, RESULT_ONE);
+    }
+
+    let objectTwoFunc = () => {
+      addNewProperty(KEY_TWO, VALUE_TWO, OBJECT_TWO);
+      objectToPage(OBJECT_TWO, RESULT_TWO);
+    }
+
+    let resultObjectFunc = () => {
+      Object.assign(OBJECT_RESULT, OBJECT_ONE, OBJECT_TWO);
+      objectToPage(OBJECT_RESULT, RESULT);
+    }
+
+    /* Вішаємо функції на відповідні кнопки */
+    SUBMIT_ONE.addEventListener('click', objectOneFunc);
+    SUBMIT_TWO.addEventListener('click', objectTwoFunc);
+    COMBINE.addEventListener('click', resultObjectFunc);
+  </script>
+</body>
+
+</html>

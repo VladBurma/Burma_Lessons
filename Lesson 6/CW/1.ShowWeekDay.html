@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Classwork</title>
+</head>
+<body>
+      <header>
+          <input id="MyDateSelector" type="date"/>
+          <button id="ShowDayButton">Показать день недели</button>
+      </header>
+      <div id="result"></div>
+      <script>
+
+          /*
+            Створіть функцію, яка на кліку на "показати день тижня" повертає день тижня для обраної дати з інтуту.
+             День потрібно повернути в div#result у текстовому форматі, тобто понеділок, вівторок, субота тощо
+          */
+
+        /* Отримуємо доступи */
+        const DATE_SELECTOR = document.getElementById('MyDateSelector');
+        const SHOW_DAY_BUTTON = document.getElementById('ShowDayButton');
+        const RESULT = document.getElementById('result');
+
+        /* Створюємо масив */
+        const DAYS_ARR = ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'Пʼятниця', 'Субота'];
+        
+        /* Створюємо <p> куди запишемо результат */
+        let dateText = document.createElement('p');
+        
+        /* Функція, що забирає значення з інпуту та знаходить відповідну назу дня */
+        let showDayOfTheWeek = () => {
+
+            /* Варіант через масив */
+            // let dayValue = new Date (DATE_SELECTOR.value);
+            // dateText.innerText = DAYS_ARR[dayValue.getDay()];
+            // RESULT.appendChild(dateText);
+
+            /* Знайшов можливість через обʼєкт Intl.DateTimeFormat виводити без масиву */
+            let options = { weekday: 'long'};
+            let dayValue = new Date (DATE_SELECTOR.value);
+            dateText.innerText = new Intl.DateTimeFormat('ua-UA', options).format(dayValue);
+            RESULT.appendChild(dateText);
+        }
+
+        /* Вішаємо функцію на кнопку */
+        SHOW_DAY_BUTTON.addEventListener('click', showDayOfTheWeek);
+
+      </script>
+</body>
+</html>

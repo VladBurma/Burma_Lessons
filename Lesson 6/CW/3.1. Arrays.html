@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Classwork</title>
+
+  <script>
+    /*
+      Завдання:
+       1. За допомогою методів викладених нижче, переформатувати ITEA_COURSES на масив, який містить довжину рядків кожного з елементів.
+       2. Відфільтрувати масив ITEA_COURSES за абеткою.
+           + Бонусний бал. Вивести на сторінку списком
+       3. Реалізація функції пошуку за масивом ITEA_COURSES.
+           + Бонусний бал. Вивести на сторінку інпут і кнопку за якою спрацьовуватиме пошук.
+    */
+    window.addEventListener('load', function () {
+      /* Отримуємо доступи */
+      const SEARCH = document.getElementById('search');
+      const RESULT = document.getElementById('result');
+      const SEARCH_BTN = document.getElementById('submit');
+
+      /* Почтаковий масив */
+      const ITEA_COURSES = ["Курс HTML & CSS", "JavaScript базовый курс", "JavaScript продвинутый курс",
+        "JavaScript Professional", "Angular 2.4 (базовый)", "Angular 2.4 (продвинутый)", "React.js",
+        "React Native", "Node.js", "Vue.js"
+      ];
+
+      /* Використовуючи метод map створюємо новий масив, що складається з довжин рядків елементів масиву ITEA_COURSES */
+      let iteaCoursesLengths = ITEA_COURSES.map((item) => item.length);
+
+      /* Використовуємо оператор spread та метод sort для сортування масиву ITEA_COURSES */
+      let iteaCoursesSorted = [...ITEA_COURSES].sort();
+
+      /* Створюємо список */
+      let ul = document.createElement('ul');
+
+      /* Наповнюємо спиок елементами з масиву iteaCoursesSorted */
+      iteaCoursesSorted.forEach((element) => {
+        let li = document.createElement('li');
+        li.innerText = element;
+        ul.appendChild(li);
+      });
+
+      /* Додаємо список у RESULT */
+      RESULT.appendChild(ul);
+
+      /* Створюємо функцію пошуку */
+      const SEARCH_FUNC = () => {
+        /* Створюємо функцію для пошуку через filter (для коректного пошуку ігноруємо регістр) */
+        let findItem = item => item.toLowerCase().includes(SEARCH.value.toLowerCase());
+        /* Використовуємо filter на масив ITEA_COURSES з аргументом findItem */
+        let filtredArray = ITEA_COURSES.filter(findItem);
+        /* Обнуляємо ul */
+        ul.innerHTML = '';
+        /* Якщо нічого не знайдено, повідомляємо про це */
+        if (filtredArray.length === 0) {
+          let li = document.createElement('li');
+          li.innerText = `По запиту ${SEARCH.value} нічого не знайдено`;
+          ul.appendChild(li);
+          return;
+        }
+        /* Так як filter повертає масив, то через forEach виводимо всі його елементи у список  */
+        if (filtredArray.length > 0) {
+          filtredArray.forEach((element) => {
+            let li = document.createElement('li');
+            li.innerText = element;
+            ul.appendChild(li);
+            return;
+          });
+        }
+      }
+
+      /* Вішаємо SEARCH_FUNC на кнопку Search */
+      SEARCH_BTN.addEventListener('click', SEARCH_FUNC);
+    })
+  </script>
+</head>
+
+<body>
+  <input type="text" id="search" placeholder="Ведіть слово для пошуку" style="width: 300px;">
+  <input type="submit" id="submit" value="Search">
+  <div id="result"></div>
+</body>
+
+</html>

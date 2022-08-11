@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Classwork</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 30px;
+    }
+
+    .film {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+      align-items: flex-start;
+      margin-top: 20px;
+      padding: 40px;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.258);
+    }
+
+    label,
+    input[type="submit"] {
+      display: block;
+      margin-top: 20px;
+    }
+  </style>
+
+  <script>
+    /*
+      Завдання 2:
+       Написати фільтр масиву за:
+       Актору, тривалості
+
+       Бонус:
+         Зробити графічну оболонку для програми:
+         - Селект зі списком акторів
+         - Селект або інпут із тривалістю
+         - Результат у вигляді списку фільмів
+    */
+    window.addEventListener('load', function () {
+
+      /* Задані зірки */
+      const STARS = ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom', 'Ewan McGregor', ' Liam Neeson',
+        'Natalie Portman', 'Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman'
+      ]
+
+      /* Масив з обʼєктами-фільмами */
+      const MOVIES = [{
+          name: "Lord of the Rigs",
+          duration: 240,
+          starring: ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom']
+        },
+        {
+          name: "Star Wars: Episode I - The Phantom Menace",
+          duration: 136,
+          starring: ['Ewan McGregor', ' Liam Neeson', 'Natalie Portman']
+        },
+        {
+          name: "Fargo",
+          duration: 100,
+          starring: ['Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman']
+        },
+        {
+          name: "V for Vendetta",
+          duration: 150,
+          starring: ['Hugo Weaving', 'Natalie Portman', 'Rupert Graves']
+        }
+      ];
+
+      /* Отримуємо доступи */
+      const INPUT_STARS = document.getElementById('stars');
+      const INPUT_DURATION = document.getElementById('number');
+      const SEARCH_BTN = document.getElementById('submit');
+      const RESULT = document.getElementById('result');
+
+      /* Закидуємо усіх зірок з STARS в селект */
+      STARS.forEach((item) => {
+        let option = document.createElement('option');
+        option.value = item;
+        option.innerText = item;
+        INPUT_STARS.appendChild(option);
+      });
+
+      /* Функція, яка виводить на сторінку усі фільми з масиву */
+      const FILMS_SHOW = (arr) => {
+        arr.forEach((film) => {
+          let div = document.createElement('div');
+          div.innerHTML = `
+          <div class = "film">
+            <h2>${film.name}</h2>
+            <p><b>Duration: </b>${film.duration} min<p>
+            <b>Stars:</b>
+            <ul>
+              ${
+                film.starring.map( (item) => `<li>${item}</li>`).join('')
+              }
+            </ul>
+          </div>
+          `
+          RESULT.appendChild(div);
+        });
+      }
+
+      /* Одразу показуємо усі фільми з MOVIES */
+      FILMS_SHOW(MOVIES);
+
+      /* Функція, що виконує пошук і вивід на сторінку */
+      const SEARCH_FUNC = () => {
+
+        /* Обнуляємо div RESULT */
+        RESULT.innerHTML = '';
+
+        /* Виконуємо пошук за значенням з інпуту з акторами */
+        let findItemStar = item => item.starring.includes(INPUT_STARS.value);
+        let filtredStarArray = MOVIES.filter(findItemStar);
+        /* Якщо вибраний пункт усі актори то посилаємось на початковий масив MOVIES */
+        if (filtredStarArray.length === 0) {
+          filtredStarArray = MOVIES;
+        };
+
+        /* Виконуємо пошук вже у масиві з потрібними акторами за значенням з інпуту з тривалістю */
+        let findItemDuration = item => item.duration >= INPUT_DURATION.value;
+        let filtredDurationArray = filtredStarArray.filter(findItemDuration);
+
+        /* Показуємо знайдені фільми */
+        FILMS_SHOW(filtredDurationArray);
+      }
+
+      /* Вішаємо SEARCH_FUNC на кнопку Search */
+      SEARCH_BTN.addEventListener('click', SEARCH_FUNC);
+    })
+  </script>
+</head>
+
+<body>
+  <h1>Фільми</h1>
+  <label for="stars">Оберіть актора </label>
+  <select id="stars">
+    <option value="0" selected>Усі</option>
+  </select>
+  <label for="number">Мінімальна тривалість </label>
+  <input id="number" type="number" placeholder="0 хвилин">
+  <input id="submit" type="submit" value="Пошук">
+  <div id="result">
+  </div>
+</body>
+
+</html>
