@@ -5,9 +5,9 @@
   <meta charset="UTF-8">
   <title>Classwork</title>
   <style>
-  body{
-    font-family: Arial, Helvetica, sans-serif;
-  }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
     .wrap {
       display: flex;
@@ -57,12 +57,12 @@
 
 <body>
   <div class="wrap">
-    <div class="assigned">
-      <div class="ObjForm">
-        <input id="keyOne" name="key" placeholder="Enter your key" />
-        <input id="valueOne" name="value" placeholder="Enter your value" />
-        <button id="submitOne" type="submit">Send</button>
-      </div>
+    <div id="formOne" class="assigned">
+      <form class="ObjForm">
+        <input name="key" placeholder="Enter your key" />
+        <input name="value" placeholder="Enter your value" />
+        <button type="submit">Send</button>
+      </form>
       <div class="createResult">
         <header>
           Created Object
@@ -77,12 +77,12 @@
       </div>
     </div>
 
-    <div class="assigned">
-      <div class="ObjForm">
-        <input id="keyTwo" name="key" placeholder="Enter your key" />
-        <input id="valueTwo" name="value" placeholder="Enter your value" />
-        <button id="submitTwo" type="submit">Send</button>
-      </div>
+    <div id="formTwo" class="assigned">
+      <form class="ObjForm">
+        <input name="key" placeholder="Enter your key" />
+        <input name="value" placeholder="Enter your value" />
+        <button type="submit">Send</button>
+      </form>
       <div class="createResult">
         <header>
           Created Object
@@ -109,15 +109,11 @@
 
   <script>
     /* Отримуємо доступи */
-    const KEY_ONE = document.getElementById('keyOne');
-    const VALUE_ONE = document.getElementById('valueOne');
-    const SUBMIT_ONE = document.getElementById('submitOne');
+    const FORM_ONE = document.getElementById('formOne');
     const RESULT_ONE = document.getElementById('objectOne');
 
 
-    const KEY_TWO = document.getElementById('keyTwo');
-    const VALUE_TWO = document.getElementById('valueTwo');
-    const SUBMIT_TWO = document.getElementById('submitTwo');
+    const FORM_TWO = document.getElementById('formTwo');
     const RESULT_TWO = document.getElementById('objectTwo');
 
     const COMBINE = document.getElementById('combine');
@@ -128,20 +124,10 @@
     const OBJECT_ONE = {};
     const OBJECT_TWO = {};
     const OBJECT_RESULT = {};
-    
-    /* Функція створення нової властивості в обʼєкті */
-    let addNewProperty = (key, value, obj, place) => {
-      let objectNewProperty = {}
-      objectNewProperty[`${key.value}`] = value.value;
-      Object.assign(obj, objectNewProperty);
-      /* Обнуляємо поля */
-      key.value = '';
-      value.value = '';
-    }
 
-    /* Функція додавання властивостей обʼєкту на сторінку */
-    let objectToPage = (obj, place) => {
-      /* Обнуляємо вивід */
+    /* Функція, що виводить властивості обʼєкту на сторінку */
+    let addObjectToPage = (obj, place) => {
+      /* Обнуляємо існуючий вміст */
       place.innerHTML = '';
       for (let [key, value] of Object.entries(obj)) {
         let p = document.createElement('p');
@@ -149,26 +135,27 @@
         place.appendChild(p);
       }
     }
+    /* Функція створення нової властивості в обʼєкті */
+    let addNewProperty = (obj, place) => (e) => {
+      e.preventDefault();
+      obj[e.target.key.value] = e.target.value.value;
 
-    /* Функції зі своїми параметрами */
-    let objectOneFunc = () => {
-      addNewProperty(KEY_ONE, VALUE_ONE, OBJECT_ONE);
-      objectToPage(OBJECT_ONE, RESULT_ONE);
+      addObjectToPage(obj, place);
+
+      /* Обнуляємо поля */
+      e.target.key.value = '';
+      e.target.value.value = '';
     }
 
-    let objectTwoFunc = () => {
-      addNewProperty(KEY_TWO, VALUE_TWO, OBJECT_TWO);
-      objectToPage(OBJECT_TWO, RESULT_TWO);
-    }
-
+    /* Функція для обʼєднання 2 обʼєктів */
     let resultObjectFunc = () => {
       Object.assign(OBJECT_RESULT, OBJECT_ONE, OBJECT_TWO);
-      objectToPage(OBJECT_RESULT, RESULT);
+      addObjectToPage(OBJECT_RESULT, RESULT);
     }
 
     /* Вішаємо функції на відповідні кнопки */
-    SUBMIT_ONE.addEventListener('click', objectOneFunc);
-    SUBMIT_TWO.addEventListener('click', objectTwoFunc);
+    FORM_ONE.addEventListener('submit', addNewProperty(OBJECT_ONE, RESULT_ONE));
+    FORM_TWO.addEventListener('submit', addNewProperty(OBJECT_TWO, RESULT_TWO));
     COMBINE.addEventListener('click', resultObjectFunc);
   </script>
 </body>
