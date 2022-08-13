@@ -190,14 +190,14 @@
     let startTime = null;
 
     /* Функція рандому */
-    const getRandomIntInclusive = (min, max) => {
+    let getRandomIntInclusive = (min, max) => {
       min = Math.ceil(min);
       max = Math.floor(max);
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     /* Функція, що створює рандомний колір */
-    const setRandomColor = () => {
+    let setRandomColor = () => {
       let color = 'rgb(' + getRandomIntInclusive(0, 255) + ',' + getRandomIntInclusive(0, 255) + ',' +
         getRandomIntInclusive(0, 255) + ')';
       return color;
