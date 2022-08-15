@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task 2</title>
+</head>
+
+<body>
+  <script>
+    /*
+    Завдання:
+
+    1. За допомогою fetch отримати дані:
+    https://jsonplaceholder.typicode.com/users
+
+    2. Отриману відповідь перетворити на json викликавши метод .json з об'єкта відповіді
+    3. Вибрати випадкову людину і передати до наступного чейну промісу
+    4. Зробити додатковий запит на отримання списку постів людини
+    https://jsonplaceholder.typicode.com/posts
+    І далі передати об'єкт:
+        {
+            name: userName,
+            ...
+            friends: friendsData
+        }
+    Підказка потрібно викликати додатковий fecth з поточного чейну.
+    Для того щоб передати результат виконання дод. запиту
+    у наш перший проміс використовуйте констуркцію:
+
+    .then(
+    response1 => {
+      return fetch(...)
+        .then(
+          response2 => {
+            ...
+            формуєте об'єкт у якому будуть дані людини з
+             першого запиту, наприклад, його name response1.name
+             та друзі які прийшли з дод. запиту
+            }
+          )
+        }
+    )
+
+    5. Вивести результат на сторінку
+
+    + Бонус. Для конвертації об'єкта response в json використовувати одну
+    функцію.
+
+    */
+    // fetch(url)
+    //   .then(testFunc)
+    //   .then(test2Func)
+    //   .then( res => {
+    //      return fetch()
+    //       .then( friendsResponse)
+    //       .then()
+    //   })
+    //   .then( func)
+
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    const URL_USERS = 'https://jsonplaceholder.typicode.com/users';
+    const URL_POSTS = 'https://jsonplaceholder.typicode.com/posts';
+
+    /* Реалізація через вкладені then */
+
+    fetch(URL_USERS)
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        let user = res[getRandomInt(0, res.length)]; //Отримуємо випадкову людину
+        return user;
+      })
+      .then(resLow => {
+        let postsAdd = fetch(URL_POSTS)
+          .then(res => {
+            return res.json();
+          })
+          .then(res => {
+            let finalUser = { //Створюємо обʼєкт фінальної людини
+              name: resLow.name, //Забираємо імʼя з зовнішнього resLow
+              post: res.filter(posts => posts.userId === resLow.id), //Шукаємо збіги у id людини в масиві постів і id вже знайденої людини
+            };
+            return finalUser;
+          });
+        return postsAdd;
+      })
+      .then(res => { //Після виконання внутрішніх .then повертаємо результат у наступний .then - зовнішній
+        return console.log('Person: ', res);
+      })
+      .catch(err => { //Обробляємо помилки
+        console.log('Problem: ', err);
+      });
+
+    /* Реалізація через async/await */
+
+    // async function getUserWithPosts() {
+    //   let usersFetch = await fetch(URL_USERS);
+    //   let usersArr = await usersFetch.json();
+    //   let userRand = usersArr[getRandomInt(0, usersArr.length)]; //Отримуємо випадкову людину
+
+    //   let postsFetch = await fetch(URL_POSTS);
+    //   let postsArr = await postsFetch.json();
+
+    //   let user = { //Створюємо обʼєкт фінальної людини
+    //     name: userRand.name, //Забираємо імʼя з userRand
+    //     posts: postsArr.filter(posts => posts.userId === userRand.id), //Шукаємо збіги у id людини в масиві постів і id вже знайденої людини
+    //   };
+    //   return user; //Функція повертає обʼєкт людину з постами
+    // }
+
+    // getUserWithPosts() //Викликаємо функцію
+    //   .then(user => console.log('Person: ', user)) // Виводимо обʼєкт людину з постами
+    //   .catch(err => { //Обробляємо помилки
+    //     console.log('Problem: ', err);
+//   });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task 1</title>
+    <style>
+        form {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Convert to JSON</h2>
+    <form id="toJsonForm">
+        <input type="text" name="name" placeholder="Name"></input>
+        <input type="number" name="age" placeholder="Age"></input>
+        <input type="password" name="password" placeholder="Password"></input>
+        <input type="submit" name="submit" value="Submit">
+    </form>
+    <h2>Convert from JSON</h2>
+    <form id="fromJsonForm">
+        <input type="text" name="json" placeholder="JSON string"></input>
+        <input type="submit" name="submit" value="Submit">
+    </form>
+    <script>
+        /*
+        Завдання:
+        Написати скрипт який:
+        1. Збирає дані з форми (3 різних полів), конвертує їх у json та виводить у консоль.
+        2. Зробити окремий інпут, який виконує JSON.parse(); на той рядок, що ви туди ввели і виводить результат у консоль.
+    
+        Array.from(HTMLNodeColection); -> Arary
+    
+        <form>
+        <input name="name" />
+        <input name="age"/>
+        <input name="password"/>
+        <button></button>
+        </form>
+    
+        <form>
+        <input />
+        <button></button>
+        </form>
+        -> '{"name" : !"23123", "age": 15, "password": "*****" }'
+    
+        */
+        /* Отримуємо доступи */
+        const FORM_TO = document.querySelector('#toJsonForm');
+        const FORM_FROM = document.querySelector('#fromJsonForm');
+
+        /* Функція для конвертації введених данних у JSON */
+        let getData = (e) => {
+            e.preventDefault();
+            let obj = {};
+            for (let i = 0; i < e.target.length - 1; i++) {
+                obj[e.target[i].name] = e.target[i].value.trim();
+                e.target[i].value = ''; // Обнуляємо поля вводу
+            }
+            return console.log(JSON.stringify(obj));
+        }
+
+        /* Функція для конвертації введених данних з JSON */
+        let parseJson = (e) => {
+            e.preventDefault();
+            if (e.target.json.value == '') { return }; // Виходимо з функції якщо пустий ввод
+            let convertObject = JSON.parse(e.target.json.value)
+            e.target.json.value = ''; // Обнуляємо поля вводу
+            return console.log(convertObject);
+        }
+
+        /* Вішаємо функції на кнопки */
+        FORM_TO.addEventListener('submit', getData);
+        FORM_FROM.addEventListener('submit', parseJson);
+    </script>
+</body>
+
+</html>
