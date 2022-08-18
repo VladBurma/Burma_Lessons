@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Task 1</title>
+    </head>
+    <body>
+        <button id="myButton">Change BG color</button>
+        <script>
+        /*
+
+            Завдання 1:
+            Написати скрипт, який на кліку на кнопку рандоміт колір і записує його в localStorage
+            Після перезавантаження сторінки, колір повинен зберегтися.
+
+         */
+        const MY_BTN = document.getElementById('myButton');
+
+         let getRandomInt = (min, max) => {
+           min = Math.ceil(min);
+           max = Math.floor(max);
+           return Math.floor(Math.random() * (max - min)) + min;
+         }
+
+         let getRandomColor = () => {
+            let color = `rgb(${getRandomInt(0, 255)}, ${getRandomInt(0, 255)}, ${getRandomInt(0, 255)})`;
+            return color;
+         }
+
+         MY_BTN.addEventListener('click', () => {
+            let bgColor = getRandomColor();
+            document.body.style.backgroundColor = bgColor;
+            localStorage.setItem('bgColor', bgColor);
+         });
+
+         window.onload = () => {
+            localStorage.getItem('bgColor') !== null ? document.body.style.backgroundColor = localStorage.getItem('bgColor') : console.log('localStorage is empty');
+         };
+
+        </script>
+    </body>
+</html>

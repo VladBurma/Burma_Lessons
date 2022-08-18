@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Task 3</title>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .form-wrapper,
+            .result {
+                background-color: white;
+                border-radius: 20px;
+                box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.258);
+                margin: 50px auto;
+                width: 400px;
+                padding: 40px;
+            }
+
+            #myForm {
+                display: flex;
+                flex-direction: column;
+                row-gap: 20px;
+                align-items: flex-start;
+            }
+
+            #name,
+            #about {
+                width: 300px;
+                padding: 10px 20px;
+            }
+
+            #upload {
+                position: absolute;
+                right: 50px;
+                top: 50px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="form-wrapper">
+            <form id="myForm">
+                <input id="name" type="text" name="title" placeholder="Name" />
+                <textarea id="about" name="about" placeholder="About"></textarea>
+                <button id="submit">Send</button>
+            </form>
+            <button id="upload">Upload posts from API</button>
+        </div>
+
+        <script>
+            /*
+         
+            Завдання 3:
+            
+            Написати форму з 2 полями для title та about
+            при сабміті форми повинен створюватися пост на основі класу Post
+            <form>
+                <input type="text" name="title">
+                <textarea name="about"></textarea>
+                <button>Send</button>
+            </form>
+            
+            Написати клас Post у якому є дані:
+            
+                _id
+                title,
+                body,
+                likes
+            
+            У класу повинен бути метод addLike та render.
+            
+            Потрібно зробити так щоб:
+            - Після додавання поста дані про нього записуються в localStorage.
+            - Після перезавантаження сторінки дані повинні зберегтися.
+            - Можна було завантажити дані до класу з апі: https://jsonplaceholder.typicode.com/posts
+            
+            */
+
+            /* Отримуємо доступи */
+            const NAME = document.getElementById('name');
+            const ABOUT = document.getElementById('about');
+            const SUMIT_BTN = document.getElementById('submit');
+            const UPLOAD_BTN = document.getElementById('upload');
+
+            /* Функція рандому */
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min)) + min;
+            }
+
+            /* Створюємо класс Post */
+            class Post {
+                /* Передеємо в конструктор всі значення і обробляємо їх відсутність якщо треба */
+                constructor(name, about, id, likes) {
+                    /* Функція, що генерує id, якщо воно не було задане */
+                    this._setId = function () {
+                        if (id === undefined) {
+                            return getRandomInt(1000000, 10000000);
+                        } else {
+                            return id;
+                        }
+                    },
+                    /* Функція, що генерує likes, якщо воно не було задане */
+                    this._setLikes = function () {
+                        if (likes === undefined) {
+                            return 0;
+                        } else {
+                            return likes;
+                        }
+                    },
+                    this._id = this._setId(),
+                    this.title = name,
+                    this.body = about,
+                    this.likes = this._setLikes()
+                }
+
+                render() {
+                    let result = document.createElement('div'); // Створюємо дів у який кладемо пост і задаємо йому id яке беремо з id обʼєкту
+                    result.classList.add('result');
+                    result.id = this._id;
+                    result.innerHTML = `
+                    <h2>${this.title}</h2>
+                    <p>${this.body}</p>
+                    <span>Likes: ${this.likes}</span>
+                    <button>Like this</button>`;
+                    document.body.appendChild(result);
+
+                    let block = document.getElementById(this._id); // Знаходимо елемент по id
+                    let likeBtn = block.querySelector('button');
+                    likeBtn.addEventListener('click', this.addLike.bind(this)); // Вішаємо функцію на створену кнопку лайків
+                }
+
+                addLike() {
+                    let block = document.getElementById(this._id); // Знаходимо елемент по id
+                    let likeText = block.querySelector('span');
+                    likeText.innerText = `Likes: ${++this.likes}`; // Змінюємо текст одночасно зі збільшенням самої змінної
+
+                    /* Закидуємо данні на localStorage під тим же id, таким чином просто змінюємо кількість лайків у записі */
+                    localStorage.setItem(this._id, JSON.stringify(this));
+                }
+            }
+
+            /* Вішаємо функцію на кнопку відправки данних */
+            SUMIT_BTN.addEventListener('click', (e) => {
+                e.preventDefault();
+                let postCreate = new Post(NAME.value, ABOUT.value); // Створюємо новий Post
+                postCreate.render(); // Викликаємо метод render
+                localStorage.setItem(postCreate._id, JSON.stringify(postCreate)); // Закидуємо данні на localStorage
+
+                /* Очищаємо поля вводу */
+                NAME.value = '';
+                ABOUT.value = '';
+            });
+
+            /* Вішаємо функцію на кнопку завантаження з апі */
+            UPLOAD_BTN.addEventListener('click', () => {
+                let getUsers = async () => {
+                    let postsFetch = await fetch('https://jsonplaceholder.typicode.com/posts');
+                    let postsArr = await postsFetch.json();
+                    return postsArr;
+                };
+                getUsers()
+                    .then(res => {
+                        res.forEach(post => {
+                            if (!localStorage.getItem(post.id)) { // Якщо в нашому localStorage немає такого id, то створюємо новий Post і рендремо його
+                                let addPostFromAPI = new Post(post.title, post.body, post.id, post.likes);
+                                addPostFromAPI.render();
+                            }
+                        });
+                    });
+            });
+
+            /* Функція по завантаженню */
+            window.onload = () => {
+                /* Якщо localStorage не пустий, то перебираємо всі данні що там є, парсимо їх, для кожного створюємо
+                новий Post і рендремо його */
+                if (localStorage.length !== 0) {
+                    for (let i = 0; i < localStorage.length; i++) {
+                        let key = localStorage.key(i);
+                        let postFromLS = JSON.parse(localStorage.getItem(key));
+                        let addPostFromLS = new Post(postFromLS.title, postFromLS.body, postFromLS._id, postFromLS.likes);
+                        addPostFromLS.render();
+                    }
+                }
+            };
+        </script>
+    </body>
+
+</html>

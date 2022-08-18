@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Task 4</title>
+    </head>
+
+    <body>
+        <!-- Додав трохи тексту, щоб спрацювали усі регулярки -->
+        <p>RegExr was created by gskinner.com, and is proudly hosted by Media Temple.
+
+            Edit the Expression & Text to see matches. Roll over matches or the expression for details. PCRE &
+            JavaScript.gif
+            flavors of RegEx are supported. Validate your expression with Tests mode. name.jpg
+
+            The side bar includes a Cheatsheet, full [Reference], and Help. You can also Save & Share with the Community,
+            and view patterns you [create or favorite] in My Patterns. 20045 2004
+            hello@gmail.com
+
+            test@google.ua
+            Explore results with the Tools below. Replace & List output custom results. Details lists capture groups.
+            asd3aw.png
+            Explain describes your expression in plain English. +38 (095) 502-10-77</p>
+        <script>
+            /*
+            Завдання:
+            Копіювати текст із файлу RegExp.txt на сайт https://regexr.com/
+            Написати регулярний вираз, який знайде:
+            1. Усі слова.
+            2. Усі збіги букв від a до e,
+            3. Року, наприклад 2004
+            4. Слова загорнуті в [квадратні Кавички]
+            5. Усі формати файлів .jpg / .png / .gif
+            6. Усі email com.ua
+            7. Всі слова написані з великої літери
+            8. Знайти телефон написаний за патерном +00 (000) 000-00-00,
+            де замість 0 може бути будь-яке число
+            */
+
+            const TEXT = document.querySelector('p').innerText;
+
+            let regularExpressions = {
+                allWords: /\w+/g, // Усі слова
+                fromAtoE: /[a-e]/g, // Усі збіги букв від a до e
+                fromAtoEWithContentInside: /a.*?e/g, // Усі збіги букв від a до e разом з тим, що всередині(не жадібне)
+                years: /\b\d{4}\b/g, // Року, наприклад 2004
+                wordWithSquareBrackets: /\[(.*?)\]/g, // Слова загорнуті в [квадратні дужки]
+                wordInSquareBrackets: /(?<=\[).+?(?=\])/g, // Слова загорнуті в [квадратні дужки]. Без самих дужок
+                allFormats: /\.(jpg|png|gif)/g, // Усі формати файлів .jpg / .png / .gif
+                allFormatsWithName: /\b\w+\.(jpg|png|gif)/g, // Усі формати файлів .jpg / .png / .gif з самою назвою файлу
+                email: /\b\w+@\w+\.(ua|com)/g, // Усі email com або ua
+                allWordsStartsWithCap: /\b[A-Z]\w+/g, // Всі слова написані з великої літери
+                phone: /\+\d{2}\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}/g // Знайти телефон написаний за патерном +00 (000) 000-00-00
+            };
+
+            for (key in regularExpressions) {
+                let result = TEXT.match(regularExpressions[key]);
+                console.log(`Регулярка: ${key}`, result);
+            }
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Task 2</title>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .form-wrapper,
+            .login-wrapper {
+                background-color: white;
+                border-radius: 20px;
+                box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.258);
+                margin: 50px auto;
+                width: 400px;
+                padding: 40px;
+            }
+
+            #myForm {
+                display: flex;
+                flex-direction: column;
+                row-gap: 20px;
+                align-items: flex-start;
+            }
+
+            .form__input-item {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            label {
+                margin-bottom: 10px;
+            }
+
+            .hide {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="form-wrapper hide">
+            <form id="myForm">
+                <div class="form__input-item">
+                    <label>Name</label>
+                    <input type="text" id="userName" placeholder="Your name" />
+                </div>
+                <div class="form__input-item">
+                    <label>Password</label>
+                    <input type="password" id="userPassword" placeholder="Your password" />
+                </div>
+                <button id="submit">Login</button>
+            </form>
+        </div>
+        <div class="login-wrapper hide">
+            <h2 id="welcomeText"></h2>
+            <form>
+                <button id="logout">Logout</button>
+            </form>
+        </div>
+
+        <script>
+            /*
+        
+            Завдання 2:
+             Написати форму логіну (логін пароль), яка після відправки даних записує їх у localStorage.
+             Якщо в localStorage є запис - На сторінці вивести "Привіт {username}", якщо ні - вивести вікно
+             логіна.
+        
+             + бонус, зробити кнопку "вийти" яка видаляє запис із localStorage і знову показує форму логіна
+             + бонус зробити перевірку логіну та пароля на конкретний запис. Тобто. залогінить користувача якщо
+             він введе тільки admin@example.com та пароль 12345678
+        
+            */
+
+            /* Отримуємо доступи */
+            const FORM = document.querySelector('.form-wrapper');
+            const USER_NAME = document.getElementById('userName');
+            const USER_PASS = document.getElementById('userPassword');
+            const SUBMIT = document.getElementById('submit');
+            const LOGIN_BLOCK = document.querySelector('.login-wrapper');
+            const WELCOME_TXT = document.getElementById('welcomeText');
+            const LOGOUT = document.getElementById('logout');
+
+            /* Вішаємо функцію на кнопку Login */
+            SUBMIT.addEventListener('click', e => {
+                let user = {
+                    name: USER_NAME.value,
+                    password: USER_PASS.value,
+                };
+                if (user.name === 'admin@example.com' && user.password === '12345678') { // Перевіряємо, чи співпадають данні з умовою
+                    localStorage.setItem('user', JSON.stringify(user));
+                } else {
+                    alert('Неправильне імʼя або пароль!');
+                }
+            });
+
+            /* Вішаємо функцію на завантаження сторінки */
+            window.onload = () => {
+                if (localStorage.getItem('user') !== null) { // Якщо localStorage не пустий, то вітаємо юзера
+                    LOGIN_BLOCK.classList.remove('hide');
+                    let user = JSON.parse(localStorage.getItem('user'));
+                    WELCOME_TXT.innerText = `Привіт ${user.name}`;
+
+                    /* Додаємо на кнопку можливість вийти */
+                    LOGOUT.addEventListener('click', () => {
+                        localStorage.removeItem('user');
+                    });
+                } else {
+                    FORM.classList.remove('hide'); // Якщо ж localStorage пустий, то показуємо блок з формою
+                }
+            };
+        </script>
+    </body>
+</html>
