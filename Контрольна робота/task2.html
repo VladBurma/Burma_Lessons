@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Forms Task 1</title>
+    <script>
+      /*
+        Завдання:
+         Зробити валідацію форми:
+         1. Логін / Пароль не може бути порожнім
+         2. те поле, яке не пройшло валідацію, підсвічувати червоним, яке пройшло - підсвічувати зеленим.
+         3. Поки користувач не згоден з угодою – кнопка відправки не активна
+    */
+    </script>
+  </head>
+
+  <body>
+    <form id="MyValidateForm">
+      <input type="text" name='login' placeholder="Ваш логин" />
+      <input type="password" name='pas1' placeholder="Ваш пароль" />
+      <input type="password" name='pas2' placeholder="Повторите пароль" />
+      <label for="agree">
+        <span>Вы согласны с лицензионым соглашением.</span>
+        <input type="checkbox" id="agree" />
+      </label>
+      <input type="submit" id="submit" value="Отправить" disabled/>
+    </form>
+
+    <style>
+      #MyValidateForm {
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #MyValidateForm input {
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        padding: 10px 20px;
+      }
+
+      .error {
+        border: 1px solid red;
+      }
+
+      .OK {
+        border: 1px solid green;
+      }
+    </style>
+
+    <script>
+      /* Отримуємо доступи */
+      const FORM = document.getElementById('MyValidateForm');
+      const SUBMIT_BTN = document.getElementById('submit');
+      const CHECKBOX = document.getElementById('agree');
+
+      let toOriginal = () => {
+        FORM.login.removeAttribute('class');
+        FORM.pas1.removeAttribute('class');
+        FORM.pas2.removeAttribute('class');
+        FORM.login.value = '';
+        FORM.pas1.value = '';
+        FORM.pas2.value = '';
+      }
+
+      CHECKBOX.addEventListener('click', () => {
+        if (CHECKBOX.checked) {
+          SUBMIT_BTN.removeAttribute('disabled');
+        } 
+        else {
+          SUBMIT_BTN.setAttribute('disabled', '');
+        }
+      });
+      
+
+      FORM.addEventListener('submit', (e) => {
+        let valid = true;
+        e.preventDefault();
+
+        if (FORM.login.value === '') {
+          FORM.login.className = 'error';
+          valid = false;
+        } 
+        else {
+          FORM.login.className = 'OK';
+        }
+
+        if(FORM.pas1.value !== FORM.pas2.value || FORM.pas1.value.length === 0){
+          valid = false;
+          FORM.pas1.className = 'error';
+          FORM.pas2.className = 'error';
+        } 
+        else {
+          FORM.pas1.className = 'OK';
+          FORM.pas2.className = 'OK';
+        }
+
+        if (valid) {
+          alert('Дані прийнято');
+          console.log('Логін: ' + FORM.login.value);
+          console.log('Пароль: ' + FORM.pas1.value);
+          toOriginal();
+        } 
+      });
+    </script>
+  </body>
+
+</html>

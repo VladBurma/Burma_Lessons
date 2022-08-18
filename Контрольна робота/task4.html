@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <style>
+            .hide {
+                display: none;
+            }
+
+            table {
+                border-collapse: collapse;
+            }
+
+            th,
+            td {
+                border: 1px solid;
+            }
+        </style>
+    </head>
+
+    <body>
+        <table id="table">
+            <tr>
+                <th>#</th>
+                <th>userName</th>
+                <th>email</th>
+                <th>Показати webiste</th>
+                <th>Показати телефон</th>
+            </tr>
+        </table>
+        <!-- 
+        Завдання:
+
+            Написати за допомогою async-await скрипт, який:
+
+            Отримує список користувачів: https://jsonplaceholder.typicode.com/users
+            Перебирає, виводить табличку:
+
+            # | userName | email | Показати webiste | phone |
+            1. | userName | email@test.com | button | phone
+            2. | userName | email@test.com | 20/10/2019 | phone
+            3. | userName | email@test.com | button | phone
+            4. | userName | email@test.com | button | phone
+
+            Дані про сайт приховувати під час виведення та показувати під час кліку.
+     -->
+
+        <script>
+            /* Отримуємо доступи */
+            const TABLE = document.getElementById('table');
+
+            /* Функція завантаження і отримання користувачів */
+            let loadUsers = async () => {
+                let users = await fetch('https://jsonplaceholder.typicode.com/users');
+                let usersArr = await users.json();
+                usersArr.forEach(item => {
+                    /* Створюємо рядок таблиці з данними, які ми забрали */
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${item.id}</td>
+                        <td>${item.username}</td>
+                        <td>${item.email}</td>
+                        <td>
+                            <button>Show</button>
+                            <p class="hide">${item.website}</p>
+                        </td>
+                        <td>
+                            <button>Show</button>
+                            <p class="hide">${item.phone}</p>
+                        </td>`;
+                    TABLE.appendChild(tr);
+
+                    /* Знаходимо кнопки і вішаєио на них функцію, що показуватиме сховани текст */
+                    let buttons = tr.querySelectorAll('button');
+                    buttons.forEach(item => {
+                        item.addEventListener('click', e => {
+                            let p = e.target.nextElementSibling;
+                            if (p.classList.contains('hide')) {
+                                p.classList.remove('hide');
+                                e.target.innerText = 'Hide';
+                            } else {
+                                p.classList.add('hide');
+                                e.target.innerText = 'Show';
+                            }
+                        })
+
+                    })
+
+                });
+            };
+
+            /* Викликаємо функцію по завантаженню */
+            window.onload = () => {
+                loadUsers()
+                .catch(err => console.log('Ой, щось пішло не так: ', err));
+            }
+        </script>
+    </body>
+
+</html>

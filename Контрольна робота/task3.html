@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <script>
+            /*
+            Завдання 1:
+
+             Написати об'єкт Train у якого будуть властивості:
+             -ім'я,
+             -швидкість їзди
+             -кількість пасажирів
+             Методи:
+             Їхати -> Поїзд {name} щастить { кількість пасажирів} зі швидкістю {speed}
+             Стояти -> Поїзд зупинився. Швидкість {Speed}
+             Підібрати пасажирів -> Збільшує кількість пасажирів на Х
+        */
+            let train = {
+                name: 'Fast Train',
+                speed: 0,
+                passNumber: 300,
+                
+                go() {
+                    this.speed = 150;
+                    console.log(`Поїзд ${this.name} перевозить ${this.passNumber} зі швидкістю ${this.speed} км/год`);
+                },
+                stop() {
+                    this.speed = 0;
+                    console.log(`Поїзд ${this.name} зупинився. Швидкість ${this.speed} км/год`);
+                },
+                pickUpPass(number) {
+                    if (typeof number === 'number'){ // перевірка, чи передали число
+                        this.passNumber += number;
+                        console.log(`Тепер пасажирів: ${this.passNumber}`);
+                    } else {
+                        console.log('Треба передати число');
+                    }
+                } 
+            }
+        </script>
+    </body>
+
+</html>
