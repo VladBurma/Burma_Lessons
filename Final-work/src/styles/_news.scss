@@ -1,0 +1,185 @@
+@import './variables'; // Імпортуємо змінні
+
+// Стилі для блоку з новинами
+
+#emptyNews {
+    img {
+        width: 100px;
+        margin: 50px;
+    }
+}
+
+.news-wrapper {
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    column-gap: $gap;
+}
+
+.news__feed {
+    width: 60%;
+}
+
+.news__add {
+    width: 40%;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    border-radius: 40px;
+    padding: 40px;
+    background: $white;
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.item__author {
+    display: flex;
+    column-gap: 10px;
+}
+
+.item__avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $mainBlue;
+
+    p.item__avatar-text {
+        @include forText(20px, $montserrat, $white);
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+}
+
+.item__name-data {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+    justify-content: center;
+
+    .item__data {
+        @include forText(12px, $montserrat, $black);
+        opacity: 50%;
+    }
+}
+
+.item__image {
+    width: 100%;
+    height: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+
+    img {
+        /* Такой же, как в первом примере */
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+        &:before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: -10px;
+            left: 0;
+            height: calc(100% + 10px);
+            width: 100%;
+            background: url("/src/images/error-img-load.svg") no-repeat center 30%, #2e2e2e;
+        }
+
+        &:after {
+            content: "Failed to load the image from the link "attr(src);
+            display: block;
+            @include forText(16px, $montserrat, $white);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+        }
+    }
+}
+
+.item-indicators-wrapper {
+    border-top: 1px solid $mainBlue;
+    border-bottom: 1px solid $mainBlue;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+
+
+    .item__like-btn,
+    .item__comment-btn {
+        display: flex;
+        align-items: center;
+        column-gap: 6px;
+        background-color: $white;
+        border: 0;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &::before {
+            content: "";
+            height: 24px;
+            width: 24px;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(.42, .97, .52, 1.49);
+        }
+
+        &:hover {
+            color: $secondaryPurple;
+        }
+
+        &:hover::before {
+            transform: scale(1.2);
+        }
+
+        &:active::before {
+            transform: scale(0.9);
+            opacity: 60%;
+        }
+    }
+
+    .item__like-btn::before {
+        background: url("/src/images/Like.svg") no-repeat center, $gradient;
+    }
+
+    .item__comment-btn::before {
+        background: url("/src/images/Comment.svg") no-repeat center, $gradient;
+    }
+}
+
+.item__comments-wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+
+    >h3 {
+        margin: 50px 0 0;
+    }
+
+    .item__comment {
+        display: grid;
+        grid-template-columns: 50px 1fr;
+        column-gap: 10px;
+
+        .item__comment-content {
+            box-sizing: border-box;
+            padding: 20px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            row-gap: 14px;
+            background: #F4EFFF;
+        }
+    }
+}

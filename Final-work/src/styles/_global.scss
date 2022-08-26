@@ -1,0 +1,59 @@
+@import './variables'; // Імпортуємо змінні
+
+// Стилі для всієї сторінки
+
+html {
+    background: $gradient;
+    color: $white;
+}
+
+.wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 30px 0;
+    overflow: hidden;
+}
+
+.main-section {
+    margin: 0 6vw;
+    display: flex;
+    flex-direction: column;
+    row-gap: 100px;
+}
+
+.header__logo {
+    img {
+        width: 140px;
+    }
+}
+
+h1 {
+    @include forText(100px, generalFont, $white);
+    line-height: 120%;
+
+    span {
+        -webkit-text-stroke: 0.1px $white;
+        -webkit-text-fill-color: transparent;
+    }
+}
+
+h2 {
+    @include forText(42px, generalFont, $white);
+    line-height: 120%;
+    margin-bottom: 30px
+}
+
+h3 {
+    @include forText(18px, $montserrat, $black);
+    font-weight: bold;
+}
+
+p {
+    @include forText(14px, $montserrat, $black);
+    font-weight: 300;
+}
+
+.hide {
+    display: none;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>News feed</title>
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <header class="header">
+                <section class="main-section">
+                    <div class="header__logo">
+                    </div>
+                </section>
+            </header>
+            <main class="main">
+                <section class="main-section">
+                    <div class="hero">
+                        <div class="hero__wrapper">
+                            <div class="hero__side">
+                                <h1><span>Read</span><br>about JS</h1>
+                            </div>
+                            <div class="hero__side">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news">
+                        <div class="news-wrapper">
+                            <div class="news__feed">
+                                <h2>News feed</h2>
+                                <div id="emptyNews" class="news__feed item">
+                                    <h3 class="news__empty">Oh! There is no news yet!</h3>
+                                </div>
+                            </div>
+                            <div class="news__add">
+                                <h2>Add news</h2>
+                                <div class="news__add item">
+                                    <h3>Fill in the data</h3>
+                                    <form id="addNewPostForm" class="form add-post">
+                                        <input class="form__input" type="text" name="name" placeholder="Your name">
+                                        <textarea class="form__input" rows="4" name="news" placeholder="News text"></textarea>
+                                        <div class="form__url-field">
+                                            <input class="form__input" type="url" name="url" placeholder="Image URL">
+                                            <button></button>
+                                        </div>
+                                        <input type="submit" value="Publish">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <script src="script.js"></script>
+    </body>
+
+</html>

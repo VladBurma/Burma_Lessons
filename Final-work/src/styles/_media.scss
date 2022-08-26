@@ -1,0 +1,74 @@
+// Стилі для адаптації
+
+@media (max-width: 1000px) {
+    h1 {
+        font-size: 60px;
+    }
+
+    .hero__wrapper {
+        padding-top: 30px;
+        max-height: 100vh;
+        flex-direction: column;
+        row-gap: 30px;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .hero__side {
+            width: 100%;
+
+            img {
+                width: 100%;
+                max-height: 50vh;
+                object-fit: contain;
+                object-position: center center;
+            }
+        }
+    }
+
+    .news-wrapper {
+        display: flex;
+        flex-direction: column-reverse;
+        row-gap: 60px;
+    }
+
+    .news__feed,
+    .news__add {
+        width: 100%;
+    }
+
+    .form__url-field {
+        .form__img-check {
+            width: 50px;
+        }
+    }
+
+    .form__two-lines {
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+
+}
+
+@media (max-width: 460px) {
+    $margin: 20px;
+
+    h1 {
+        font-size: 40px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    .item {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .item__image {
+        width: 88vw;
+        margin-left: -20px;
+        border-radius: 0;
+    }
+}

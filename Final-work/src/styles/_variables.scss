@@ -1,0 +1,20 @@
+// Усі змінні і міксіни
+
+$mainBlue: #27067F;
+$secondaryPurple: #5D1385;
+$gradient: linear-gradient(90deg, $mainBlue 0%, $secondaryPurple 100%);
+$black: #101010;
+$white: #FFFFFF;
+
+$montserrat: 'Montserrat',
+Arial,
+Helvetica,
+sans-serif;
+
+$gap: 2vw;
+
+@mixin forText($size, $family, $color) {
+    font-size: $size;
+    font-family: $family;
+    color: $color;
+}

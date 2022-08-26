@@ -1,0 +1,86 @@
+@import './variables'; // Імпортуємо змінні
+
+// Стилі для форми
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+
+    .form__url-field {
+        width: 100%;
+        position: relative;
+
+        .form__img-check {
+            height: 100%;
+            padding: 0 $gap;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url("/src/images/upload.svg") no-repeat center, $gradient;
+            border: none;
+            border-radius: 4px;
+            position: absolute;
+            right: 0;
+            top: 0;
+
+        }
+    }
+
+    .form__two-lines {
+        display: flex;
+        column-gap: 20px;
+    }
+
+    img {
+        margin: 20px 0;
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 20px;
+        position: relative;
+        @include forText(14px, $montserrat, rgb(168, 0, 0));
+
+        &:before {
+            content: "Failed to load the image from the link";
+            box-sizing: border-box;
+            padding: 20px;
+            background: #ffe0e0;
+            border-radius: 50px;
+            width: 100%;
+        }
+    }
+}
+
+.form__input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px 12px;
+    border-radius: 4px;
+    border: 1px solid #D9D9D9;
+
+    &::-webkit-input-placeholder {
+        @include forText(14px, $montserrat, $black);
+        opacity: 50%;
+    }
+}
+
+input[type="submit"] {
+    @include forText(14px, generalFont, $white);
+    padding: 18px 0;
+    background: $mainBlue;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.6s ease;
+
+    &:hover {
+        background: $secondaryPurple;
+        transform: scale(1.04);
+    }
+
+    &:active {
+        transform: scale(0.9);
+    }
+}

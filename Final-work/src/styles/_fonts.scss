@@ -1,0 +1,8 @@
+// Додаємо Monument font
+@font-face {
+    font-family: generalFont;
+    src: url("/src/fonts/MonumentExtended-Regular.otf") format("opentype");
+}
+
+// Додаємо Montserat font
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');

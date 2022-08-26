@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/x-icon" href="./images/fav.ico">
+        <title>News feed</title>
+    </head>
+
+    <body>
+        <!-- Лоадер -->
+        <div id="loader" class="loader">
+            <img src="./images/loader.gif">
+            <h3>Page loading</h3>
+        </div>
+
+        <div class="wrapper">
+            
+            <header class="header">
+                <section class="main-section">
+                    <div class="header__logo">
+                        <img src="./images/logo.svg" alt="logotype">
+                    </div>
+                </section>
+            </header>
+
+            <main class="main">
+                <section class="main-section">
+                    <!-- Перший блок -->
+                    <div class="hero">
+                        <div class="hero__wrapper">
+                            <div class="hero__side">
+                                <h1><span>Read</span><br>about JS</h1>
+                            </div>
+                            <div class="hero__side">
+                                <img src="./images/hero-img.png" alt="main image">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Блок з новинами -->
+                    <div class="news">
+                        <div class="news-wrapper">
+                            <!-- Стрічка новин -->
+                            <div id="newsFeed" class="news__feed">
+                                <h2>News feed</h2>
+                                <div id="emptyNews" class="news__feed item">
+                                    <img src="./images/empty.svg" alt="no news">
+                                    <h3 class="news__empty">Oh! There is no news yet!</h3>
+                                </div>
+                            </div>
+                            <!-- Додати новину -->
+                            <div class="news__add">
+                                <h2>Add news</h2>
+                                <div class="news__add item">
+                                    <h3>Fill in the data</h3>
+                                    <form id="addNewPostForm" class="form add-post">
+                                        <input class="form__input" type="text" name="name" placeholder="Your nickname" required>
+                                        <textarea class="form__input" rows="4" name="news" placeholder="News text" required></textarea>
+                                        <div class="form__url-field">
+                                            <input class="form__input" type="url" name="url" placeholder="Image URL" required>
+                                            <div id="imgCheck" class="form__img-check"></div>
+                                        </div>
+                                        <img id="urlResult" class="hide" src="#">
+                                        <input id="newsAddBtn" type="submit" value="Publish">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </body>
+
+</html>
